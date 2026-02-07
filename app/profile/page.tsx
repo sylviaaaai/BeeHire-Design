@@ -123,7 +123,17 @@ export default function ProfilePage() {
                   </button>
                 </div>
                 <p className="text-xs text-white/80">Member for 260 days</p>
-                <p className="text-xs text-amber-300 mt-1">*{beeTier} Bee</p>
+                <p
+                  className={`text-xs mt-1 ${
+                    beeTier === "Golden"
+                      ? "text-amber-300"
+                      : beeTier === "Advanced"
+                      ? "text-sky-300"
+                      : "text-emerald-300"
+                  }`}
+                >
+                  *{beeTier} Bee
+                </p>
               </div>
             </div>
 
