@@ -12,7 +12,7 @@ import {
   Wallet,
   Clock
 } from "lucide-react";
-
+import { useRouter } from "next/navigation";
 // --- 1. 星星背景组件 ---
 function StarField() {
   const stars = Array.from({ length: 70 }).map((_, i) => ({
@@ -50,11 +50,12 @@ function StarField() {
   );
 }
 
-// --- 2. 主页面 ---
+// --- 2. 主页�?---
 export default function DashboardPage() {
+  
   const [username, setUsername] = useState("Bee");
   const [today, setToday] = useState("");
-
+  const router = useRouter();
   useEffect(() => {
     const name = localStorage.getItem("username");
     if (name) setUsername(name);
@@ -73,7 +74,7 @@ export default function DashboardPage() {
 
           <StarField />
 
-          {/* 欢迎语 */}
+          {/* 欢迎�?*/}
           <div className="relative z-10 flex items-center gap-4 mb-8">
             <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center border border-white/20 backdrop-blur-sm">
               <img src="/Bee.svg" className="w-7 h-7" alt="logo" />
@@ -177,7 +178,7 @@ export default function DashboardPage() {
 
           {/* Add More */}
           <div className="mt-10 pb-4">
-            <button className="w-full flex items-center justify-center gap-3 
+            <button onClick={() => router.push("/task-hub")} className="w-full flex items-center justify-center gap-3 
               bg-[#070F2B] text-white py-5 rounded-2xl font-bold 
               shadow-xl shadow-blue-900/30 active:scale-95 transition hover:bg-[#0A163B]">
               <Plus size={22} />
@@ -187,13 +188,13 @@ export default function DashboardPage() {
 
         </div>
 
-        {/* === 底部导航栏 === */}
+        {/* === 底部导航�?=== */}
         <div className="fixed bottom-0 left-0 right-0 z-50">
           <div className="max-w-md mx-auto bg-white/80 backdrop-blur-xl border-t border-gray-100 px-6 py-4 pb-6 rounded-t-[2rem]">
             <div className="flex justify-between items-end text-gray-400">
               <NavIcon icon={<Home size={22}/>} label="Home" active />
-              <NavIcon icon={<Wallet size={22}/>} label="Earn" />
-              <NavIcon icon={<LayoutGrid size={22}/>} label="Task Hub" />
+              <NavIcon icon={<Wallet size={22}/>} label="Work List" onClick={() => router.push("/work-list")} />
+              <NavIcon icon={<LayoutGrid size={22}/>} label="Task Hub" onClick={() => router.push("/task-hub")} />
               <NavIcon icon={<User size={22}/>} label="Profile" />
             </div>
           </div>
@@ -247,9 +248,12 @@ function TaskCard({ brand, title, stipend, requirement, days, progress, isAwaiti
 }
 
 // --- NavIcon ---
-function NavIcon({ icon, label, active = false }: any) {
+function NavIcon({ icon, label, active = false, onClick }: any) {
   return (
-    <button className={`flex flex-col items-center gap-1.5 transition-all ${active ? 'text-[#7C71F5] -translate-y-1' : 'text-gray-400'}`}>
+    <button
+      onClick={onClick}
+      className={`flex flex-col items-center gap-1.5 transition-all ${active ? 'text-[#7C71F5] -translate-y-1' : 'text-gray-400'}`}
+    >
       <div className={`${active ? 'bg-[#7C71F5]/10 p-2.5 rounded-2xl' : 'p-1'}`}>
         {icon}
       </div>
