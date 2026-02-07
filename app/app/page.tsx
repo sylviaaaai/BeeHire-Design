@@ -7,6 +7,7 @@ import {
   Play, 
   Home, 
   LayoutGrid, 
+  Scale,
   User, 
   ArrowUpRight, 
   Wallet,
@@ -52,18 +53,30 @@ function StarField() {
 
 // --- 2. 主页�?---
 export default function DashboardPage() {
-  
   const [username, setUsername] = useState("Bee");
   const [today, setToday] = useState("");
+  const [beeTier, setBeeTier] = useState<"New" | "Advanced" | "Golden">("New");
+  const [workDays, setWorkDays] = useState(0);
+  const [performance, setPerformance] = useState(0);
   const router = useRouter();
+
   useEffect(() => {
     const name = localStorage.getItem("username");
     if (name) setUsername(name);
+
+    const t = (localStorage.getItem("beeTier") as "New" | "Advanced" | "Golden") || "New";
+    if (t === "New" || t === "Advanced" || t === "Golden") setBeeTier(t);
+    const storedDays = Number(localStorage.getItem("workDays"));
+    const storedPerf = Number(localStorage.getItem("performance"));
+    setWorkDays(Number.isFinite(storedDays) && storedDays > 0 ? storedDays : 120);
+    setPerformance(Number.isFinite(storedPerf) && storedPerf > 0 ? storedPerf : 7.3);
 
     const now = new Date();
     const formatted = `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`;
     setToday(formatted);
   }, []);
+
+  const showUpgradeDot = beeTier === "New" && workDays > 90 && performance > 7;
 
   return (
     <main className="min-h-screen bg-[#070F2B] flex justify-center font-sans antialiased overflow-hidden">
@@ -76,13 +89,33 @@ export default function DashboardPage() {
 
           {/* 欢迎�?*/}
           <div className="relative z-10 flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center border border-white/20 backdrop-blur-sm">
+            <button
+              onClick={() => router.push("/profile")}
+              className="relative w-12 h-12 bg-white/10 rounded-full flex items-center justify-center border border-white/20 backdrop-blur-sm hover:bg-white/15 transition"
+              aria-label="Go to profile"
+            >
               <img src="/Bee.svg" className="w-7 h-7" alt="logo" />
-            </div>
+              {showUpgradeDot && (
+                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-red-500 border border-white/40" />
+              )}
+            </button>
             <div>
-              <p className="text-white/90 text-xs font-medium tracking-wide">
-                Hi, {username}
-              </p>
+              <div className="flex items-center gap-2">
+                <p className="text-white/90 text-xs font-medium tracking-wide">
+                  Hi, {username}
+                </p>
+                <span
+                  className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${
+                    beeTier === "Golden"
+                      ? "bg-amber-400/20 text-amber-200 border-amber-300/50"
+                      : beeTier === "Advanced"
+                      ? "bg-sky-400/20 text-sky-200 border-sky-300/50"
+                      : "bg-emerald-500/20 text-emerald-200 border-emerald-400/40"
+                  }`}
+                >
+                  {beeTier} Bee
+                </span>
+              </div>
               <h1 className="text-2xl font-bold tracking-tight">Welcome Back!</h1>
             </div>
           </div>
@@ -92,7 +125,7 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative z-10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-[2.5rem] p-6 mb-8 border border-white/10 text-center shadow-2xl"
+            className="relative z-10 bg-white/10 backdrop-blur-2xl rounded-[2.5rem] p-6 mb-8 border border-white/25 text-center shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
           >
             <div className="flex items-center justify-center gap-2 mb-2 opacity-50">
                 <Clock size={14} />
@@ -190,12 +223,13 @@ export default function DashboardPage() {
 
         {/* === 底部导航�?=== */}
         <div className="fixed bottom-0 left-0 right-0 z-50">
-          <div className="max-w-md mx-auto bg-white/80 backdrop-blur-xl border-t border-gray-100 px-6 py-4 pb-6 rounded-t-[2rem]">
+          <div className="max-w-md mx-auto bg-[#F5F6F8]/90 backdrop-blur-xl border-t border-gray-200 px-5 py-3 pb-4 rounded-t-[1.6rem]">
             <div className="flex justify-between items-end text-gray-400">
               <NavIcon icon={<Home size={22}/>} label="Home" active />
+              <NavIcon icon={<Scale size={20}/>} label="Earn" onClick={() => router.push("/earn")} />
               <NavIcon icon={<Wallet size={22}/>} label="Work List" onClick={() => router.push("/work-list")} />
               <NavIcon icon={<LayoutGrid size={22}/>} label="Task Hub" onClick={() => router.push("/task-hub")} />
-              <NavIcon icon={<User size={22}/>} label="Profile" />
+              <NavIcon icon={<User size={22}/>} label="Profile" onClick={() => router.push("/profile")} showDot={showUpgradeDot} />
             </div>
           </div>
         </div>
@@ -206,14 +240,27 @@ export default function DashboardPage() {
 }
 
 // --- TaskCard ---
+function logoForBrand(brand: string) {
+  const map: Record<string, string> = {
+    Nike: "/nike.png",
+    "P&G": "/P&G.png",
+    TikTok: "/tiktok.png",
+  };
+  return map[brand];
+}
+
 function TaskCard({ brand, title, stipend, requirement, days, progress, isAwaiting }: any) {
   return (
     <motion.div 
       whileTap={{ scale: 0.98 }}
       className="bg-[#EBE5EB] rounded-[1.8rem] p-5 flex gap-4 items-start"
     >
-      <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center">
-        <span className="font-bold text-xs">{brand}</span>
+      <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center overflow-hidden">
+        {logoForBrand(brand) ? (
+          <img src={logoForBrand(brand)} alt={brand} className="w-8 h-8 object-contain" />
+        ) : (
+          <span className="font-bold text-xs">{brand}</span>
+        )}
       </div>
 
       <div className="flex-1">
@@ -248,14 +295,17 @@ function TaskCard({ brand, title, stipend, requirement, days, progress, isAwaiti
 }
 
 // --- NavIcon ---
-function NavIcon({ icon, label, active = false, onClick }: any) {
+function NavIcon({ icon, label, active = false, onClick, showDot = false }: any) {
   return (
     <button
       onClick={onClick}
       className={`flex flex-col items-center gap-1.5 transition-all ${active ? 'text-[#7C71F5] -translate-y-1' : 'text-gray-400'}`}
     >
-      <div className={`${active ? 'bg-[#7C71F5]/10 p-2.5 rounded-2xl' : 'p-1'}`}>
+      <div className={`${active ? 'bg-[#7C71F5]/10 p-2.5 rounded-2xl' : 'p-1'} relative`}>
         {icon}
+        {showDot && (
+          <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-red-500 border border-white/40" />
+        )}
       </div>
       <span className="text-[9px] font-bold">{label}</span>
     </button>

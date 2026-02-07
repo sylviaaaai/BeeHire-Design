@@ -1,11 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [name, setName] = useState("");
+  const [stars, setStars] = useState<
+    { id: number; top: string; left: string; size: number }[]
+  >([]);
   const router = useRouter();
+
+  useEffect(() => {
+    const next = Array.from({ length: 80 }).map((_, i) => ({
+      id: i,
+      size: Math.random() * 2 + 1,
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+    }));
+    setStars(next);
+  }, []);
 
   function handleLogin() {
     if (!name) return;
@@ -23,13 +36,15 @@ export default function LoginPage() {
 
       {/* ✨ 星点 */}
       <div className="absolute inset-0 pointer-events-none">
-        {Array.from({ length: 80 }).map((_, i) => (
+        {stars.map((star) => (
           <span
-            key={i}
+            key={star.id}
             className="absolute w-[2px] h-[2px] bg-white/70 rounded-full"
             style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
+              top: star.top,
+              left: star.left,
+              width: star.size,
+              height: star.size,
               boxShadow: "0 0 8px rgba(255,255,255,0.6)",
             }}
           />

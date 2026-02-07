@@ -9,21 +9,38 @@ type Task = {
   company: string;
   title: string;
   hourly: number;
+  tierRequired: "New" | "Advanced" | "Golden";
+  premiumOnly?: boolean;
 };
 
 const TASK_INDEX: Task[] = [
-  { id: "dove-01", company: "Dove", title: "Assembly-line screen clicking", hourly: 15 },
-  { id: "fedex-01", company: "FedEx", title: "Loading parcels onto a conveyor belt", hourly: 36 },
-  { id: "nutella-01", company: "Nutella", title: "Feeding materials into chocolate machines", hourly: 20 },
-  { id: "sanitation-01", company: "SanitationCo.", title: "Collecting trash bins along assigned streets", hourly: 36 },
-  { id: "pictake-01", company: "PicTake.AI", title: "Street photo capture every 10 seconds", hourly: 50 },
+  { id: "nike-01", company: "Nike", title: "Workshop process sampling & material handling", hourly: 11.7, tierRequired: "New" },
+  { id: "pg-01", company: "P&G", title: "Packaging defect detection & visual checks", hourly: 8.2, tierRequired: "New" },
+  { id: "tiktok-01", company: "TikTok", title: "Sponsored post interaction alignment", hourly: 5, tierRequired: "New" },
+
+  { id: "stride-01", company: "Stride", title: "Leave 5-star reviews on Amazon", hourly: 15, tierRequired: "New" },
+  { id: "pastahut-01", company: "PastaHut", title: "Chopping vegetables (Onions, garlic, basil)", hourly: 24, tierRequired: "Advanced" },
+  { id: "hm-01", company: "H&M", title: "Folding garments to preset orientation", hourly: 20, tierRequired: "New" },
+  { id: "lego-01", company: "LEGO", title: "Picking a fixed number of components for each LEGO product", hourly: 48, tierRequired: "Golden", premiumOnly: true },
+  { id: "walmart-01", company: "Walmart", title: "Repeated barcode scanning of warehouse inventory", hourly: 24, tierRequired: "Advanced" },
+
+  { id: "dove-01", company: "Dove", title: "Assembly-line screen clicking", hourly: 15, tierRequired: "New" },
+  { id: "fedex-01", company: "FedEx", title: "Loading parcels onto a conveyor belt", hourly: 36, tierRequired: "Advanced" },
+  { id: "nutella-01", company: "Nutella", title: "Feeding materials into chocolate machines at fixed intervals", hourly: 20, tierRequired: "New" },
+  { id: "sanitation-01", company: "SanitationCo.", title: "Collecting trash bins along assigned streets", hourly: 36, tierRequired: "Advanced" },
+  { id: "pictake-01", company: "PicTake.AI", title: "Walk along the street and take random photos every 10 seconds", hourly: 50, tierRequired: "Golden", premiumOnly: true },
 ];
 
 const LS = {
   cart: "workCart",
   applying: "workApplying",
   approved: "workApproved",
+  beeTier: "beeTier",
+  premium: "isPremium",
+  contractAccepted: "contractAccepted",
 };
+
+const APPROVED_DEFAULT_IDS = ["nike-01", "pg-01", "tiktok-01"];
 
 function readList(key: string): string[] {
   try {
@@ -39,8 +56,44 @@ function writeList(key: string, list: string[]) {
   localStorage.setItem(key, JSON.stringify(Array.from(new Set(list))));
 }
 
+function tierRank(t: "New" | "Advanced" | "Golden") {
+  return t === "New" ? 0 : t === "Advanced" ? 1 : 2;
+}
+
+function notifyWorkListChange() {
+  window.dispatchEvent(new Event("worklist:update"));
+}
+
+function logoForCompany(company: string) {
+  const map: Record<string, string> = {
+    Stride: "/stride.png",
+    PastaHut: "/PastaHut.png",
+    "H&M": "/hm.png",
+    LEGO: "/lego.png",
+    Walmart: "/walmart.png",
+    Dove: "/Dove.png",
+    FedEx: "/fedex.png",
+    Nutella: "/Nutella.png",
+    "SanitationCo.": "/sanitationCo.png",
+    "PicTake.AI": "/PicTake.png",
+    Nike: "/nike.png",
+    "P&G": "/P&G.png",
+    TikTok: "/tiktok.png",
+    UPS: "/ups.png",
+  };
+  return map[company];
+}
+
 function findTask(id: string) {
-  return TASK_INDEX.find((t) => t.id === id) || { id, company: "Unknown", title: "Unknown task", hourly: 0 };
+  return (
+    TASK_INDEX.find((t) => t.id === id) || {
+      id,
+      company: "Unknown",
+      title: "Unknown task",
+      hourly: 0,
+      tierRequired: "New",
+    }
+  );
 }
 
 export default function WorkListPage() {
@@ -48,11 +101,27 @@ export default function WorkListPage() {
   const [cart, setCart] = useState<string[]>([]);
   const [applying, setApplying] = useState<string[]>([]);
   const [approved, setApproved] = useState<string[]>([]);
+  const [beeTier, setBeeTier] = useState<"New" | "Advanced" | "Golden">("New");
+  const [isPremium, setIsPremium] = useState(false);
 
   useEffect(() => {
     setCart(readList(LS.cart));
     setApplying(readList(LS.applying));
-    setApproved(readList(LS.approved));
+    const approvedList = readList(LS.approved);
+    if (approvedList.length === 0) {
+      setApproved(APPROVED_DEFAULT_IDS);
+      writeList(LS.approved, APPROVED_DEFAULT_IDS);
+    } else {
+      setApproved(approvedList);
+    }
+    const t = (localStorage.getItem(LS.beeTier) as "New" | "Advanced" | "Golden") || "New";
+    if (t === "New" || t === "Advanced" || t === "Golden") setBeeTier(t);
+    setIsPremium(localStorage.getItem(LS.premium) === "true");
+
+    const ca = localStorage.getItem(LS.contractAccepted) === "true";
+    if (!ca) {
+      router.replace("/contract");
+    }
   }, []);
 
   const cartTasks = useMemo(() => cart.map(findTask), [cart]);
@@ -60,14 +129,26 @@ export default function WorkListPage() {
   const approvedTasks = useMemo(() => approved.map(findTask), [approved]);
 
   // （可选）快速操作：从购物车移动到申请中
-  const moveCartToApplying = (id: string) => {
-    const nextCart = cart.filter((x) => x !== id);
-    const nextApplying = Array.from(new Set([...applying, id]));
+  const moveCartToApplying = (task: Task) => {
+    const lockedByPremium = !!task.premiumOnly && !isPremium;
+    const lockedByTier = tierRank(beeTier) < tierRank(task.tierRequired);
+    if (lockedByPremium || lockedByTier) return;
+    const nextCart = cart.filter((x) => x !== task.id);
+    const nextApplying = Array.from(new Set([...applying, task.id]));
     setCart(nextCart);
     setApplying(nextApplying);
     writeList(LS.cart, nextCart);
     writeList(LS.applying, nextApplying);
+    notifyWorkListChange();
   };
+  // 从购物车移除
+const removeFromCart = (id: string) => {
+  const nextCart = cart.filter((x) => x !== id);
+  setCart(nextCart);
+  writeList(LS.cart, nextCart);
+  notifyWorkListChange();
+};
+
 
   return (
     <main className="min-h-screen bg-[#070F2B] flex justify-center font-sans antialiased">
@@ -81,9 +162,6 @@ export default function WorkListPage() {
             Back
           </button>
           <h1 className="text-2xl font-bold mt-3">My work list</h1>
-          <p className="text-white/60 text-sm mt-1">
-            1) Cart · 2) Applying · 3) Approved
-          </p>
         </div>
 
         <div className="flex-1 bg-white rounded-t-[2.5rem] px-6 pt-6 pb-10 overflow-y-auto shadow-[0_-10px_40px_rgba(0,0,0,0.2)]">
@@ -94,14 +172,41 @@ export default function WorkListPage() {
               <div className="space-y-3">
                 {cartTasks.map((t) => (
                   <Card key={t.id} title={`${t.company}`} subtitle={t.title} meta={`$${t.hourly.toFixed(2)}/hr`}>
+
+                    {/* Apply */}
+                    {(() => {
+                      const lockedByPremium = !!t.premiumOnly && !isPremium;
+                      const lockedByTier = tierRank(beeTier) < tierRank(t.tierRequired);
+                      const disabled = lockedByTier && !lockedByPremium;
+                      const label = lockedByPremium ? "Go Premium" : lockedByTier ? "Locked" : "Apply from Cart";
+                      return (
+                        <button
+                          onClick={() => (lockedByPremium ? router.push("/premium") : moveCartToApplying(t))}
+                          disabled={disabled}
+                          className={`w-full mt-3 py-3 rounded-xl font-bold active:scale-95 transition ${
+                            disabled
+                              ? "bg-slate-200 text-slate-500"
+                              : lockedByPremium
+                              ? "bg-[#9B8A18] text-white hover:brightness-105"
+                              : "bg-[#070F2B] text-white"
+                          }`}
+                        >
+                          {label}
+                        </button>
+                      );
+                    })()}
+
+                    {/* Remove */}
                     <button
-                      onClick={() => moveCartToApplying(t.id)}
-                      className="w-full mt-3 py-3 rounded-xl bg-[#070F2B] text-white font-bold active:scale-95 transition"
+                      onClick={() => removeFromCart(t.id)}
+                      className="w-full mt-2 py-2 rounded-xl border border-slate-300 text-slate-600 text-sm font-bold hover:bg-slate-50 active:scale-95 transition"
                     >
-                      Apply from Cart
+                      Remove
                     </button>
+
                   </Card>
                 ))}
+
               </div>
             )}
           </Section>
@@ -181,9 +286,26 @@ function Card({
   return (
     <div className="rounded-[1.6rem] border border-slate-200 bg-gradient-to-b from-[#F1ECFF] to-[#F7F6FF] p-5">
       <div className="flex items-start justify-between gap-3">
-        <div>
-          <div className="text-sm font-bold text-[#1B2140]">{title}</div>
-          <div className="text-[13px] text-slate-600 mt-1">{subtitle}</div>
+        <div className="flex items-start gap-4">
+          <div className="w-[72px] h-[72px] rounded-2xl border border-slate-200 flex items-center justify-center">
+            <div className="w-[56px] h-[56px] bg-white rounded-xl flex items-center justify-center overflow-hidden">
+              {logoForCompany(title) ? (
+                <img
+                  src={logoForCompany(title)}
+                  alt={title}
+                  className={`object-contain ${
+                    title === "PicTake.AI" ? "w-[180px] h-[180px]" : "w-[40px] h-[40px]"
+                  }`}
+                />
+              ) : (
+                <span className="text-[10px] text-slate-400 font-bold">LOGO</span>
+              )}
+            </div>
+          </div>
+          <div>
+            <div className="text-sm font-bold text-[#1B2140]">{title}</div>
+            <div className="text-[13px] text-slate-600 mt-1">{subtitle}</div>
+          </div>
         </div>
         <div className="text-xs text-slate-500 whitespace-nowrap">{meta}</div>
       </div>
