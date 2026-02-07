@@ -248,6 +248,16 @@ export default function TaskHubPage() {
                 >
                   Continue
                 </button>
+                <button
+                    onClick={() => {
+                    localStorage.removeItem("contractAccepted");
+                    window.location.reload();
+                     }}
+                    className="mt-3 w-full py-3 rounded-xl text-sm text-slate-400 border border-slate-300"
+>
+                    Reset Contract (Dev)
+                </button>
+
               </div>
             </div>
           </div>
