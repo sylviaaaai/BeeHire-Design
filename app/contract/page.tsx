@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const LS = {
   contractAccepted: "contractAccepted",
 };
 
-export default function ContractPage() {
+function ContractInner() {
   const router = useRouter();
   const search = useSearchParams();
   const fromProfile = search.get("from") === "profile";
@@ -93,5 +93,13 @@ export default function ContractPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ContractPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#070F2B]" />}>
+      <ContractInner />
+    </Suspense>
   );
 }
