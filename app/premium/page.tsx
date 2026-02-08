@@ -31,96 +31,112 @@ export default function PremiumPage() {
 
   return (
     <main className="min-h-screen bg-[#FFFDF8] flex justify-center">
-      <div className="w-full max-w-md min-h-screen px-6 py-8 text-[#1B2140]">
-        {/* Back */}
-        <button
-          onClick={() => router.back()}
-          className="flex items-center gap-2 text-[#1B2140]/80 hover:text-[#1B2140] transition mb-4"
+      <div className="w-full max-w-md min-h-screen text-[#1B2140]">
+        {/* Top Premium Section */}
+        <div
+          className="px-6 py-8"
+          style={{
+            backgroundImage: "url(/background.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "center top",
+            backgroundRepeat: "no-repeat",
+          }}
         >
-          <ArrowLeft size={18} />
-          Back
-        </button>
-
-        {/* Title */}
-        <h1 className="text-2xl font-bold text-center mb-2">Unlock Premium Contracts</h1>
-
-        <p className="text-center text-gray-500 mb-6">
-          Higher Bounty. Priority Matching. Faster Payouts.
-        </p>
-
-        {/* Hero Badge */}
-        <div className="flex justify-center mb-8">
-          <div className="w-48 h-48 rounded-full bg-gradient-to-br from-yellow-300 via-yellow-400 to-yellow-600 flex items-center justify-center shadow-xl">
-            {/* Replace later with image */}
-            <Crown size={80} className="text-white" />
-          </div>
-        </div>
-
-        {/* Pricing Card */}
-        <div className="bg-[#FFF8E8] rounded-3xl p-6 shadow-md mb-10">
-          <h2 className="text-lg font-bold text-center mb-2">Golden Bee Membership</h2>
-
-          <p className="text-center text-3xl font-bold mb-4">
-            $20 <span className="text-base font-medium">/ month</span>
-          </p>
-
-          <div className="space-y-3 mb-6">
-            <Feature text="Priority access to Premium tasks" />
-            <Feature text="Higher bounty multipliers" />
-            <Feature text="Early task notifications" />
-          </div>
-
-          <button className="w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-500 to-yellow-600 text-white font-bold text-lg shadow-lg active:scale-95">
-            Start Premium - $20/month
-          </button>
-        </div>
-
-        {/* Advanced Bee Upgrade */}
-        <div className="relative bg-[#FFF8E8] rounded-3xl p-6 shadow-md mb-10 border border-[#EBD9B5]">
-          {eligibleForAdvanced && (
-            <span className="absolute -top-2 -right-2 w-3 h-3 rounded-full bg-red-500 border border-white/70" />
-          )}
-          <h2 className="text-lg font-bold text-center mb-1 text-[#1B2140]">
-            Upgrade to Advanced Bee
-          </h2>
-          <p className="text-center text-sm text-slate-500 mb-4">
-            Requirements: work days &gt; 90 and performance &gt; 7 (New Bee only)
-          </p>
-
-          <div className="grid grid-cols-2 gap-3 text-center mb-4">
-            <div className="rounded-2xl bg-slate-50 border border-slate-200 p-3">
-              <p className="text-xs text-slate-500">Work Days</p>
-              <p className="text-lg font-bold text-[#1B2140]">{workDays}</p>
-            </div>
-            <div className="rounded-2xl bg-slate-50 border border-slate-200 p-3">
-              <p className="text-xs text-slate-500">Performance</p>
-              <p className="text-lg font-bold text-[#1B2140]">{performance.toFixed(1)}</p>
-            </div>
-          </div>
-
+          {/* Back */}
           <button
-            onClick={upgradeToAdvanced}
-            disabled={!eligibleForAdvanced}
-            className={`w-full py-4 rounded-2xl font-bold text-lg shadow-lg active:scale-95 transition ${
-              eligibleForAdvanced
-                ? "bg-emerald-500 text-white"
-                : "bg-slate-200 text-slate-500"
-            }`}
+            onClick={() => router.back()}
+            className="flex items-center gap-2 text-[#1B2140]/80 hover:text-[#1B2140] transition mb-4"
           >
-            Upgrade to Advanced Bee!
+            <ArrowLeft size={18} />
+            Back
           </button>
+
+          {/* Title */}
+          <h1 className="text-2xl font-bold text-center mb-2">Unlock Premium Contracts</h1>
+
+          <p className="text-center text-gray-500 mb-6">
+            Higher Bounty. Priority Matching. Faster Payouts.
+          </p>
+
+          {/* Hero Badge */}
+          <div className="flex justify-center mb-0.5 -mt-4">
+            <div className="relative flex flex-col items-center">
+              <img
+                src="/golden.png"
+                alt="Golden"
+                className="w-72 h-72 object-contain drop-shadow-[0_14px_28px_rgba(0,0,0,0.22)] scale-150"
+              />
+            </div>
+          </div>
+
+          {/* Pricing Card */}
+          <div className="bg-[#FFF8E8]/90 backdrop-blur-[2px] rounded-3xl p-6 shadow-md mt-0.5 mb-10 border border-[#EBD9B5]">
+            <h2 className="text-lg font-bold text-center mb-2">Golden Bee Membership</h2>
+
+            <p className="text-center text-3xl font-bold mb-4">
+              $20 <span className="text-base font-medium">/ month</span>
+            </p>
+
+            <div className="space-y-3 mb-6">
+              <Feature text="Priority access to Premium tasks" />
+              <Feature text="Higher bounty multipliers" />
+              <Feature text="Early task notifications" />
+            </div>
+
+            <button className="w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-500 to-yellow-600 text-white font-bold text-lg shadow-lg active:scale-95">
+              Start Premium - $20/month
+            </button>
+          </div>
         </div>
 
-        {/* Section Title */}
-        <h3 className="text-center font-bold mb-4">
-          Get Access To Bounty Multipliers With A Premium Membership
-        </h3>
+        <div className="-mt-4">
+          {/* Section Title */}
+          <h3 className="text-center font-bold mb-4">
+            Get Access To Bounty Multipliers With A Premium Membership
+          </h3>
 
-        {/* Premium Task Preview */}
-        <div className="grid grid-cols-3 gap-4">
-          <PremiumTask company="LEGO" bounty="$48.00 / hr" />
-          <PremiumTask company="PicTake.AI" bounty="$50.00 / hr" />
-          <PremiumTask company="UPS" bounty="$48.00 / hr" />
+          {/* Premium Task Preview */}
+          <div className="grid grid-cols-3 gap-4">
+            <PremiumTask company="LEGO" bounty="$48.00 / hr" />
+            <PremiumTask company="PicTake.AI" bounty="$50.00 / hr" />
+            <PremiumTask company="UPS" bounty="$48.00 / hr" />
+          </div>
+
+          {/* Advanced Bee Upgrade */}
+          <div className="relative bg-[#FFF8E8] rounded-3xl p-6 shadow-md mt-10 mb-10 border border-[#EBD9B5]">
+            {eligibleForAdvanced && (
+              <span className="absolute -top-2 -right-2 w-3 h-3 rounded-full bg-red-500 border border-white/70" />
+            )}
+            <h2 className="text-lg font-bold text-center mb-1 text-[#1B2140]">
+              Upgrade to Advanced Bee
+            </h2>
+            <p className="text-center text-sm text-slate-500 mb-4">
+              Requirements: work days &gt; 90 and performance &gt; 7 (New Bee only)
+            </p>
+
+            <div className="grid grid-cols-2 gap-3 text-center mb-4">
+              <div className="rounded-2xl bg-white border border-[#E6E1D6] p-3">
+                <p className="text-xs text-slate-500">Work Days</p>
+                <p className="text-lg font-bold text-[#1B2140]">{workDays}</p>
+              </div>
+              <div className="rounded-2xl bg-white border border-[#E6E1D6] p-3">
+                <p className="text-xs text-slate-500">Performance</p>
+                <p className="text-lg font-bold text-[#1B2140]">{performance.toFixed(1)}</p>
+              </div>
+            </div>
+
+            <button
+              onClick={upgradeToAdvanced}
+              disabled={!eligibleForAdvanced}
+              className={`w-full py-4 rounded-2xl font-bold text-lg shadow-lg active:scale-95 transition ${
+                eligibleForAdvanced
+                  ? "bg-emerald-500 text-white"
+                  : "bg-slate-200 text-slate-500"
+              }`}
+            >
+              Upgrade to Advanced Bee!
+            </button>
+          </div>
         </div>
 
         {/* Footer */}
@@ -156,7 +172,12 @@ function logoForCompany(company: string) {
 
 function PremiumTask({ company, bounty }: { company: string; bounty: string }) {
   return (
-    <div className="bg-[#FFF8E8] rounded-2xl p-3 flex flex-col items-center shadow">
+    <div className="relative bg-[#FFF8E8] rounded-2xl pt-6 pb-3 px-3 flex flex-col items-center shadow">
+      <img
+        src="/label2.png"
+        alt="Premium ribbon"
+        className="absolute -top-5 w-32 h-10 object-contain drop-shadow-[0_6px_14px_rgba(0,0,0,0.2)]"
+      />
       {/* Logo Placeholder */}
       <div className="w-16 h-16 bg-white rounded-xl mb-2 flex items-center justify-center overflow-hidden">
         {logoForCompany(company) ? (
@@ -170,7 +191,7 @@ function PremiumTask({ company, bounty }: { company: string; bounty: string }) {
 
       <p className="text-sm font-bold mb-1">{company}</p>
 
-      <p className="text-xs text-green-700 mb-2">Bounty: {bounty}</p>
+      <p className="text-[10px] text-green-700 mb-2">Bounty: {bounty}</p>
 
       <div className="flex items-center gap-1 text-xs text-gray-500">
         <Lock size={12} />

@@ -172,7 +172,12 @@ export default function ProfilePage() {
             <div className="p-5">
               {tab === "status" ? (
                 <div className="space-y-4">
-                  <StatusCard title={STATUS_ITEMS[0].title} body={STATUS_ITEMS[0].body} tone="gold" />
+                  <StatusCard
+                    title={STATUS_ITEMS[0].title}
+                    body={STATUS_ITEMS[0].body}
+                    tone="gold"
+                    showBg
+                  />
                   <StatusCard
                     title={STATUS_ITEMS[1].title}
                     body={STATUS_ITEMS[1].body}
@@ -274,6 +279,7 @@ function StatusCard({
   delta,
   penalty,
   tone,
+  showBg = false,
 }: {
   title: string;
   body: string;
@@ -281,6 +287,7 @@ function StatusCard({
   delta?: string;
   penalty?: string;
   tone: "gold" | "blue" | "rose";
+  showBg?: boolean;
 }) {
   const toneClass =
     tone === "gold"
@@ -290,7 +297,20 @@ function StatusCard({
       : "border-[#E6C2C2] bg-[#FFF4F4]";
 
   return (
-    <div className={`rounded-[1.8rem] border p-4 ${toneClass}`}>
+    <div
+      className={`rounded-[1.8rem] border p-4 ${toneClass}`}
+      style={
+        showBg
+          ? {
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(/background.png)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }
+          : undefined
+      }
+    >
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-base font-bold text-[#2D161C]">{title}</p>
@@ -329,7 +349,11 @@ function EarningRow({
   return (
     <div className="flex items-center justify-between gap-3">
       <div className="flex items-center gap-3">
-        <div className="w-12 h-12 rounded-full bg-yellow-400 flex items-center justify-center text-white font-bold">
+        <div
+          className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold ${
+            title === "Penalty" ? "bg-rose-500" : "bg-yellow-400"
+          }`}
+        >
           $$
         </div>
         <div>

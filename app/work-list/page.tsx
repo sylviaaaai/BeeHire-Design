@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ShoppingCart, Send, CheckCircle2 } from "lucide-react";
 
@@ -12,6 +13,43 @@ type Task = {
   tierRequired: "New" | "Advanced" | "Golden";
   premiumOnly?: boolean;
 };
+
+// --- 1. 星星背景组件 ---
+function StarField() {
+  const stars = Array.from({ length: 70 }).map((_, i) => ({
+    id: i,
+    size: Math.random() * 2 + 1,
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
+    duration: Math.random() * 3 + 2,
+    delay: Math.random() * 5,
+  }));
+
+  return (
+    <div className="absolute inset-0 z-0 pointer-events-none">
+      {stars.map((star) => (
+        <motion.div
+          key={star.id}
+          className="absolute bg-white rounded-full"
+          style={{
+            top: star.top,
+            left: star.left,
+            width: star.size,
+            height: star.size,
+            boxShadow: "0 0 4px rgba(255, 255, 255, 0.8)",
+          }}
+          animate={{ opacity: [0.1, 1, 0.1], scale: [1, 1.2, 1] }}
+          transition={{
+            duration: star.duration,
+            repeat: Infinity,
+            delay: star.delay,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 const TASK_INDEX: Task[] = [
   { id: "nike-01", company: "Nike", title: "Workshop process sampling & material handling", hourly: 11.7, tierRequired: "New" },
@@ -151,9 +189,10 @@ const removeFromCart = (id: string) => {
 
 
   return (
-    <main className="min-h-screen bg-[#070F2B] flex justify-center font-sans antialiased">
+    <main className="min-h-screen bg-[#070F2B] flex justify-center font-sans antialiased overflow-hidden">
       <div className="w-full max-w-md h-screen flex flex-col">
-        <div className="px-6 pt-10 pb-5 text-white shrink-0">
+        <div className="px-6 pt-10 pb-5 text-white shrink-0 relative overflow-hidden">
+          <StarField />
           <button
             onClick={() => router.back()}
             className="flex items-center gap-2 text-white/80 hover:text-white transition"

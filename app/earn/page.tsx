@@ -146,7 +146,7 @@ export default function EarnPage() {
             <div className="grid grid-cols-3 gap-3">
               {(
                 [
-                  { level: "Low", icon: "/Low Control.svg" },
+                  { level: "Low", icon: "/low.svg" },
                   { level: "Medium", icon: "/Medium Control.svg" },
                   { level: "High", icon: "/Hign Control.svg" },
                 ] as { level: ControlLevel; icon: string }[]
