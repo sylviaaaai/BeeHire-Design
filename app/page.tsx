@@ -24,14 +24,17 @@ export default function Home() {
       </div>
 
       {/* Content */}
-      <div className="relative w-full max-w-xs px-6 flex flex-col items-center text-center">
+      <div className="relative w-full max-w-xs px-6 flex flex-col items-center text-center -mt-16 pb-16">
         {/* Logo */}
         <img src="/Blank Logo.png" alt="Behire Logo" className="w-72 mb-10" />
 
         {/* Title */}
-        <h1 className="text-3xl font-semibold mb-3">
-          Welcome to <span className="bg-white/15 px-2 py-1 rounded-lg">Be</span>
-          hire.
+        <h1 className="text-4xl font-semibold mb-3">
+          Welcome to{" "}
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-lg bg-white text-[#070F2B]">
+            BEE
+          </span>
+          <span className="ml-1">HIRE.</span>
         </h1>
 
         {/* Subtitle */}
@@ -42,7 +45,7 @@ export default function Home() {
           onClick={() => {
             window.location.href = "/Login";
           }}
-          className="w-full py-4 rounded-full bg-[#9AA4FF] text-[#070F2B] font-semibold text-lg shadow-lg shadow-[#9AA4FF]/30 hover:opacity-90 transition"
+          className="w-full py-4 rounded-full bg-[#9AA4FF] text-[#070F2B] font-semibold text-lg shadow-lg shadow-[#9AA4FF]/30 hover:opacity-90 transition mt-10"
         >
           GET STARTED
         </button>

@@ -175,7 +175,7 @@ export default function DashboardPage() {
         </div>
 
         {/* === 白色内容区域 === */}
-        <div className="flex-1 bg-white rounded-t-[2.5rem] px-6 pt-8 pb-32 overflow-y-auto relative z-20">
+        <div className="flex-1 bg-white rounded-t-[2.5rem] px-6 pt-6 pb-32 overflow-y-auto relative z-20 -mt-8">
 
           <h3 className="text-center text-[#2D161C] text-lg font-bold mb-6">
             Your Current Contract
@@ -185,7 +185,7 @@ export default function DashboardPage() {
             <TaskCard 
               brand="Nike"
               title="Workshop process sampling & material handling"
-              stipend="$11.70"
+              stipend="$27.70"
               requirement="High"
               days="5 days/week"
               progress={67}
@@ -194,7 +194,7 @@ export default function DashboardPage() {
             <TaskCard 
               brand="P&G"
               title="Packaging defect detection & visual checks"
-              stipend="$8.20"
+              stipend="$18.20"
               requirement="Medium"
               days="3 days/week"
               progress={20}
@@ -203,7 +203,7 @@ export default function DashboardPage() {
             <TaskCard 
               brand="TikTok"
               title="Sponsored post interaction alignment"
-              stipend="$5.00"
+              stipend="$14.00"
               requirement="Low"
               isAwaiting
             />
