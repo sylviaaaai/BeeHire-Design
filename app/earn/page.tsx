@@ -56,7 +56,7 @@ export default function EarnPage() {
       <div className="w-full max-w-md min-h-screen relative">
         {/* Top hero */}
         <div
-          className="relative px-6 pt-10 pb-12 text-white"
+          className="relative px-6 pt-8 pb-8 text-white"
           style={{
             backgroundImage: "url(/bg-Earn.png)",
             backgroundSize: "cover",
@@ -66,7 +66,7 @@ export default function EarnPage() {
           <div className="absolute inset-0 bg-[#0B1232]/50" />
           <div className="relative z-10">
             <div className="flex items-start justify-between">
-              <h1 className="text-lg font-semibold text-white/80">Earn</h1>
+              <h1 className="text-lg font-semibold text-white/80">Estimate your income </h1>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => router.push("/profile")}
@@ -101,12 +101,12 @@ export default function EarnPage() {
                 </div>
               </div>
             </div>
-            <div className="mt-5 rounded-[2rem] bg-white/15 border border-white/30 backdrop-blur-xl p-6 text-center shadow-2xl">
+            <div className="mt-4 rounded-[2rem] bg-white/15 border border-white/30 backdrop-blur-xl p-5 text-center shadow-2xl">
               <p className="text-sm tracking-wide text-white/80">Earnings Simulator</p>
-              <p className="mt-2 text-5xl font-bold text-white">{formatMoney(annual)}</p>
+              <p className="mt-1.5 text-5xl font-bold text-white">{formatMoney(annual)}</p>
               <p className="mt-1 text-white/70">Annual Income</p>
 
-              <div className="mt-6 grid grid-cols-3 items-center text-white">
+              <div className="mt-4 grid grid-cols-3 items-center text-white">
                 <div>
                   <p className="text-2xl font-semibold">{formatMoney(monthly)}</p>
                   <p className="text-xs text-white/70 mt-1">Monthly</p>
@@ -117,13 +117,13 @@ export default function EarnPage() {
                   <p className="text-xs text-white/70 mt-1">Daily</p>
                 </div>
               </div>
-              <p className="mt-5 text-xs text-white/70">Test income by adjusting parameters!</p>
+              <p className="mt-3 text-xs text-white/70">Test income by adjusting parameters!</p>
             </div>
           </div>
         </div>
 
         {/* Controls */}
-        <div className="px-6 pt-6 pb-28">
+        <div className="px-6 pt-4 pb-24">
           <Section title="Bee Type">
             <div className="grid grid-cols-3 gap-3">
               {([
@@ -163,8 +163,8 @@ export default function EarnPage() {
           </Section>
 
           <Section title="Work Hours per Day">
-            <div className="rounded-[1.8rem] bg-white border border-slate-200 p-5 shadow-sm">
-              <div className="flex items-center justify-between text-xs text-slate-400 mb-3">
+            <div className="rounded-[1.8rem] bg-white border border-slate-200 p-4 shadow-sm">
+              <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
                 <span>1h</span>
                 <span>{hours}h</span>
                 <span>12h</span>
@@ -201,8 +201,8 @@ export default function EarnPage() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="mb-6">
-      <h2 className="text-center text-[#2D161C] text-lg font-bold mb-3">{title}</h2>
+    <div className="mb-4">
+      <h2 className="text-center text-[#2D161C] text-lg font-bold mb-2">{title}</h2>
       {children}
     </div>
   );
@@ -222,15 +222,15 @@ function SelectCard({
   return (
     <button
       onClick={onClick}
-      className={`rounded-[1.6rem] border p-4 text-center shadow-sm transition ${
+      className={`rounded-[1.6rem] border p-3 text-center shadow-sm transition ${
         selected ? "bg-[#EEF2FF] border-blue-300" : "bg-white border-slate-200"
       }`}
     >
-      <div className="w-10 h-10 mx-auto mb-2 flex items-center justify-center">
+      <div className="w-10 h-10 mx-auto mb-1.5 flex items-center justify-center">
         <img src={beeIcon} alt="bee" className="w-12 h-12 object-contain" />
       </div>
       <p className="text-xs font-semibold text-[#2D161C]">{label}</p>
-      <div className="mt-2 flex items-center justify-center">
+      <div className="mt-1.5 flex items-center justify-center">
         <div
           className={`w-4 h-4 rounded border ${
             selected ? "bg-blue-500 border-blue-500" : "border-slate-300"

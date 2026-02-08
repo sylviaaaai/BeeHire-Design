@@ -83,12 +83,12 @@ export default function DashboardPage() {
       <div className="w-full max-w-md bg-[#070F2B] relative flex flex-col h-screen">
 
         {/* === 顶部星空区域 === */}
-        <div className="px-6 pt-10 pb-12 text-white relative overflow-hidden shrink-0">
+        <div className="px-6 pt-8 pb-8 text-white relative overflow-hidden shrink-0">
 
           <StarField />
 
           {/* 欢迎�?*/}
-          <div className="relative z-10 flex items-center gap-4 mb-8">
+          <div className="relative z-10 flex items-center gap-3 mb-5">
             <button
               onClick={() => router.push("/profile")}
               className="relative w-12 h-12 bg-white/10 rounded-full flex items-center justify-center border border-white/20 backdrop-blur-sm hover:bg-white/15 transition"
@@ -125,15 +125,15 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative z-10 bg-white/10 backdrop-blur-2xl rounded-[2.5rem] p-6 mb-8 border border-white/25 text-center shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
+            className="relative z-10 bg-white/10 backdrop-blur-2xl rounded-[2.5rem] p-5 mb-5 border border-white/25 text-center shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
           >
-            <div className="flex items-center justify-center gap-2 mb-2 opacity-50">
+            <div className="flex items-center justify-center gap-2 mb-1.5 opacity-50">
                 <Clock size={14} />
                 <p className="text-[10px] uppercase tracking-widest">
                   {today}
                 </p>
             </div>
-            <p className="text-white/90 text-sm font-medium mb-1">
+            <p className="text-white/90 text-sm font-medium mb-0.5">
               Total Work Hours
             </p>
             <h2 className="text-5xl font-bold tracking-tighter drop-shadow-lg">
@@ -144,7 +144,7 @@ export default function DashboardPage() {
           </motion.div>
 
           {/* 收入 */}
-          <div className="relative z-10 flex justify-between px-2 mb-2">
+          <div className="relative z-10 flex justify-between px-2 mb-1">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-white/5 rounded-2xl border border-white/10">
                 <Wallet size={20} />
@@ -175,13 +175,13 @@ export default function DashboardPage() {
         </div>
 
         {/* === 白色内容区域 === */}
-        <div className="flex-1 bg-white rounded-t-[2.5rem] px-6 pt-6 pb-32 overflow-y-auto relative z-20 -mt-8">
+        <div className="flex-1 bg-white rounded-t-[2.5rem] px-6 pt-4 pb-28 overflow-y-auto relative z-20 -mt-4">
 
-          <h3 className="text-center text-[#2D161C] text-lg font-bold mb-6">
+          <h3 className="text-center text-[#2D161C] text-lg font-bold mb-4">
             Your Current Contract
           </h3>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             <TaskCard 
               brand="Nike"
               title="Workshop process sampling & material handling"
@@ -210,9 +210,9 @@ export default function DashboardPage() {
           </div>
 
           {/* Add More */}
-          <div className="mt-10 pb-4">
+          <div className="mt-6 pb-3">
             <button onClick={() => router.push("/task-hub")} className="w-full flex items-center justify-center gap-3 
-              bg-[#070F2B] text-white py-5 rounded-2xl font-bold 
+              bg-[#070F2B] text-white py-4 rounded-2xl font-bold 
               shadow-xl shadow-blue-900/30 active:scale-95 transition hover:bg-[#0A163B]">
               <Plus size={22} />
               Add More
@@ -253,7 +253,7 @@ function TaskCard({ brand, title, stipend, requirement, days, progress, isAwaiti
   return (
     <motion.div 
       whileTap={{ scale: 0.98 }}
-      className="bg-[#EBE5EB] rounded-[1.8rem] p-5 flex gap-4 items-start"
+      className="bg-[#EBE5EB] rounded-[1.8rem] p-4 flex gap-3 items-start"
     >
       <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center overflow-hidden">
         {logoForBrand(brand) ? (
@@ -264,9 +264,9 @@ function TaskCard({ brand, title, stipend, requirement, days, progress, isAwaiti
       </div>
 
       <div className="flex-1">
-        <h4 className="text-[13px] font-bold mb-2">{title}</h4>
+        <h4 className="text-[13px] font-bold mb-1">{title}</h4>
 
-        <div className="flex flex-wrap gap-x-3 text-[10px] mb-3">
+        <div className="flex flex-wrap gap-x-3 text-[10px] mb-2">
           <p>Stipend: <b>{stipend} / hr</b></p>
           <p>Req: <b>{requirement}</b></p>
         </div>
@@ -276,7 +276,7 @@ function TaskCard({ brand, title, stipend, requirement, days, progress, isAwaiti
             Task Awaiting
           </div>
         ) : (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <span className="text-[9px] bg-gray-200 px-2 py-0.5 rounded-md">{days}</span>
             <div className="flex-1 h-3 bg-white rounded-full overflow-hidden">
               <motion.div 
