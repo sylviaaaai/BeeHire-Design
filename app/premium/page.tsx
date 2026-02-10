@@ -74,7 +74,7 @@ export default function PremiumPage() {
             <h2 className="text-lg font-bold text-center mb-2">Golden Bee Membership</h2>
 
             <p className="text-center text-3xl font-bold mb-4">
-              $20 <span className="text-base font-medium">/ month</span>
+              $200 <span className="text-base font-medium">/ month</span>
             </p>
 
             <div className="space-y-3 mb-6">
@@ -84,7 +84,7 @@ export default function PremiumPage() {
             </div>
 
             <button className="w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-500 to-yellow-600 text-white font-bold text-lg shadow-lg active:scale-95">
-              Start Premium - $20/month
+              Start Premium - $200/month
             </button>
           </div>
         </div>
