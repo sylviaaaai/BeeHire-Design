@@ -106,7 +106,7 @@ function ContractInner() {
           </div>
 
           <div className="mt-4 rounded-2xl bg-slate-50/60 border border-slate-200 p-4 overflow-y-auto text-sm text-slate-700 leading-relaxed flex-1">
-            By selecting <strong>ACCEPT</strong>, you authorize BeeHire
+            By selecting <strong><em>ACCEPT</em></strong>, you authorize BeeHire
             to initiate and manage involuntary neuromuscular activity during periods of{" "}
             <strong>unconsciousness or reduced awareness</strong>, including sleep. Actions performed by your body may occur without your{" "}
             <strong>knowledge, memory, or ability to intervene</strong> at the moment of execution. All physical outputs generated during sleep—including {" "}
