@@ -16,7 +16,7 @@ export default function PremiumPage() {
 
     const storedDays = Number(localStorage.getItem("workDays"));
     const storedPerf = Number(localStorage.getItem("performance"));
-    setWorkDays(Number.isFinite(storedDays) && storedDays > 0 ? storedDays : 120);
+    setWorkDays(Number.isFinite(storedDays) && storedDays > 0 ? storedDays : 260);
     setPerformance(Number.isFinite(storedPerf) && storedPerf > 0 ? storedPerf : 7.3);
   }, []);
 

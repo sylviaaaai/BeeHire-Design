@@ -14,7 +14,7 @@ import {
   Clock
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-// --- 1. 星星背景组件 ---
+// star background
 function StarField() {
   const stars = Array.from({ length: 70 }).map((_, i) => ({
     id: i,
@@ -51,14 +51,42 @@ function StarField() {
   );
 }
 
-// --- 2. 主页�?---
+// homepage
+function generateWorkHours(username: string) {
+  // Simple hash function to generate consistent pseudo-random numbers from username
+  let hash = 0;
+  for (let i = 0; i < username.length; i++) {
+    const char = username.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  
+  const absHash = Math.abs(hash);
+  // Generate hours (5-6), minutes (0-59), seconds (0-59)
+  const hours = 5 + (absHash % 2); // 5 or 6
+  const minutes = (Math.floor(absHash / 2) % 60);
+  const seconds = (Math.floor(absHash / 120) % 60);
+  
+  return { hours, minutes, seconds };
+}
+
 export default function DashboardPage() {
   const [username, setUsername] = useState("Bee");
   const [today, setToday] = useState("");
   const [beeTier, setBeeTier] = useState<"New" | "Advanced" | "Golden">("New");
   const [workDays, setWorkDays] = useState(0);
   const [performance, setPerformance] = useState(0);
+  const [workHours, setWorkHours] = useState({ hours: 5, minutes: 23, seconds: 56 });
   const router = useRouter();
+
+  // Calculate overnight earnings based on work hours and $27.7/hour rate
+  const calculateOvernightEarnings = (hours: number, minutes: number, seconds: number) => {
+    const totalHours = hours + minutes / 60 + seconds / 3600;
+    return (totalHours * 27.7).toFixed(2);
+  };
+
+  const overnightEarnings = calculateOvernightEarnings(workHours.hours, workHours.minutes, workHours.seconds);
+  const weeklyEarnings = (parseFloat(overnightEarnings) * 3).toFixed(2);
 
   useEffect(() => {
     const name = localStorage.getItem("username");
@@ -72,8 +100,13 @@ export default function DashboardPage() {
     setPerformance(Number.isFinite(storedPerf) && storedPerf > 0 ? storedPerf : 7.3);
 
     const now = new Date();
-    const formatted = `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`;
+    const futureDate = new Date(now.getFullYear() + 11, now.getMonth(), now.getDate());
+    const formatted = `${futureDate.getFullYear()}/${futureDate.getMonth() + 1}/${futureDate.getDate()}`;
     setToday(formatted);
+
+    // Generate work hours based on username
+    const hours = generateWorkHours(name || "Bee");
+    setWorkHours(hours);
   }, []);
 
   const showUpgradeDot = beeTier === "New" && workDays > 90 && performance > 7;
@@ -82,12 +115,12 @@ export default function DashboardPage() {
     <main className="min-h-screen bg-[#070F2B] flex justify-center font-sans antialiased overflow-hidden">
       <div className="w-full max-w-md bg-[#070F2B] relative flex flex-col h-screen">
 
-        {/* === 顶部星空区域 === */}
+        {/* star */}
         <div className="px-6 pt-8 pb-8 text-white relative overflow-hidden shrink-0">
 
           <StarField />
 
-          {/* 欢迎�?*/}
+          {/* welcome*/}
           <div className="relative z-10 flex items-center gap-3 mb-5">
             <button
               onClick={() => router.push("/profile")}
@@ -120,7 +153,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* 工作时间卡片 */}
+          {/* worktime */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -137,13 +170,13 @@ export default function DashboardPage() {
               Total Work Hours
             </p>
             <h2 className="text-5xl font-bold tracking-tighter drop-shadow-lg">
-              05<span className="text-2xl opacity-60 ml-1">h</span>{" "}
-              23<span className="text-2xl opacity-60 ml-1">m</span>{" "}
-              56<span className="text-sm opacity-60 ml-1">s</span>
+              {String(workHours.hours).padStart(2, "0")}<span className="text-2xl opacity-60 ml-1">h</span>{" "}
+              {String(workHours.minutes).padStart(2, "0")}<span className="text-2xl opacity-60 ml-1">m</span>{" "}
+              {String(workHours.seconds).padStart(2, "0")}<span className="text-sm opacity-60 ml-1">s</span>
             </h2>
           </motion.div>
 
-          {/* 收入 */}
+          {/* income */}
           <div className="relative z-10 flex justify-between px-2 mb-1">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-white/5 rounded-2xl border border-white/10">
@@ -154,7 +187,7 @@ export default function DashboardPage() {
                   Overnight
                 </p>
                 <p className="text-xl font-bold flex items-center gap-1">
-                  $43.29
+                  ${overnightEarnings}
                   <ArrowUpRight size={14} className="text-emerald-400" />
                 </p>
               </div>
@@ -168,13 +201,13 @@ export default function DashboardPage() {
                 <p className="text-[10px] text-white/40 uppercase font-bold tracking-wider">
                   Weekly
                 </p>
-                <p className="text-xl font-bold">$203.12</p>
+                <p className="text-xl font-bold">${weeklyEarnings}</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* === 白色内容区域 === */}
+        {/* whiteplace */}
         <div className="flex-1 bg-white rounded-t-[2.5rem] px-6 pt-4 pb-28 overflow-y-auto relative z-20 -mt-4">
 
           <h3 className="text-center text-[#2D161C] text-lg font-bold mb-4">
@@ -221,7 +254,7 @@ export default function DashboardPage() {
 
         </div>
 
-        {/* === 底部导航�?=== */}
+        {/* 底部导航 */}
         <div className="fixed bottom-0 left-0 right-0 z-50">
           <div className="max-w-md mx-auto bg-[#F5F6F8]/90 backdrop-blur-xl border-t border-gray-200 px-5 py-3 pb-4 rounded-t-[1.6rem]">
             <div className="flex justify-between items-end text-gray-400">

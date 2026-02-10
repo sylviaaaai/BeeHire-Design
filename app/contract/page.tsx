@@ -49,6 +49,7 @@ function ContractInner() {
   const router = useRouter();
   const search = useSearchParams();
   const fromProfile = search.get("from") === "profile";
+  const fromImprove = search.get("from") === "improve";
 
   const [checked, setChecked] = useState(false);
   const [accepted, setAccepted] = useState(false);
@@ -60,6 +61,7 @@ function ContractInner() {
   }, []);
 
   useEffect(() => {
+    // Only auto-redirect to task-hub if not coming from profile Terms button
     if (accepted && !fromProfile) {
       router.replace("/task-hub");
     }
@@ -104,29 +106,13 @@ function ContractInner() {
           </div>
 
           <div className="mt-4 rounded-2xl bg-slate-50/60 border border-slate-200 p-4 overflow-y-auto text-sm text-slate-700 leading-relaxed flex-1">
-            By enrolling as a BeeHire™ Night Bee, you voluntarily authorize BeeHire™, its affiliates, and
-            authorized enterprise partners to coordinate, initiate, and manage sleep-based participation
-            activities during rest periods selected or inferred through the application, including the use of
-            low-intensity neuromuscular stimulation technologies designed to facilitate system-guided motor
-            activity without the requirement of conscious attention or active decision-making, and you
-            acknowledge that such activities may occur partially or fully outside of conscious awareness, may
-            continue across variable sleep states, and may not be immediately perceptible or interruptible upon
-            partial waking; you further consent to the collection, processing, analysis, optimization, and
-            derivative use of biological, behavioral, temporal, and interaction-based data generated through
-            participation for purposes including but not limited to system performance, compensation
-            calculation, client verification, model training, and service improvement, with the understanding
-            that certain task details, activity records, or action-level disclosures may be limited, delayed,
-            aggregated, or unavailable in order to preserve operational integrity, confidentiality, and
-            platform effectiveness; you acknowledge that while BeeHire™ protocols are informed by existing
-            biomedical research, the long-term neurological, physiological, or behavioral effects of repeated
-            or extended participation are not fully established, may vary by individual, and are accepted as
-            part of voluntary participation, and that compensation estimates displayed within the app are
-            projections subject to dynamic adjustment based on system demand, consent scope, participation
-            continuity, and performance indicators, and do not constitute guaranteed income; by continuing,
-            you accept responsibility for participation outcomes within disclosed parameters, including those
-            not immediately observable, predictable, or reversible, and agree that continued use of the
-            service constitutes ongoing acceptance of updated terms, data practices, and operational
-            conditions as they may evolve over time.
+            By selecting ACCEPT, you authorize BeeHire to initiate and manage involuntary neuromuscular activity during periods of unconsciousness or reduced awareness, including sleep. Actions performed by your body may occur without your knowledge, memory, or ability to intervene at the moment of execution.
+            All physical outputs generated during sleep—including finger movements, interaction patterns, and behavioral signatures—are considered authorized labor and may be executed across third-party platforms under your verified human identity. You waive the right to contest individual actions performed during active sessions, regardless of intent or awareness.
+            You acknowledge that long-term physiological, neurological, and psychological effects are not fully understood, and BeeHire assumes no responsibility for changes to bodily autonomy, sleep patterns, or sense of control arising from participation.
+            You further acknowledge that participation may occur without supplemental insurance coverage. Any outcomes, injuries, losses, or consequences resulting from the absence of optional insurance, unintentional waking, partial consciousness, or sleep disruption during active sessions are not the responsibility of BeeHire.
+            Limiting or withdrawing consent may result in reduced access to work and compensation.
+            Participation is voluntary.
+            Acceptance applies to current and future protocol changes deemed operationally necessary.
           </div>
 
           <label className="mt-6 flex items-start gap-3 text-sm text-[#1B2140]">

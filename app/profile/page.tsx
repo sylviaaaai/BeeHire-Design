@@ -80,11 +80,24 @@ export default function ProfilePage() {
     setPerformance(Number.isFinite(storedPerf) && storedPerf > 0 ? storedPerf : 7.3);
   }, []);
 
-  const today = useMemo(() => formatDate(new Date()), []);
+  const today = useMemo(() => {
+    const futureDate = new Date();
+    futureDate.setFullYear(futureDate.getFullYear() + 11);
+    return formatDate(futureDate);
+  }, []);
   const showUpgradeDot = beeTier === "New" && workDays > 90 && performance > 7;
 
   const onTerms = () => {
     router.push("/contract?from=profile");
+  };
+
+  const onImproveClick = () => {
+    const contractAccepted = localStorage.getItem("contractAccepted") === "true";
+    if (contractAccepted) {
+      router.push("/task-hub");
+    } else {
+      router.push("/contract?from=improve");
+    }
   };
 
   return (
@@ -177,6 +190,7 @@ export default function ProfilePage() {
                     body={STATUS_ITEMS[0].body}
                     tone="gold"
                     showBg
+                    showButton={false}
                   />
                   <StatusCard
                     title={STATUS_ITEMS[1].title}
@@ -184,12 +198,14 @@ export default function ProfilePage() {
                     score={STATUS_ITEMS[1].score}
                     delta={STATUS_ITEMS[1].delta}
                     tone="blue"
+                    onClick={onImproveClick}
                   />
                   <StatusCard
                     title={STATUS_ITEMS[2].title}
                     body={STATUS_ITEMS[2].body}
                     penalty={STATUS_ITEMS[2].penalty}
                     tone="rose"
+                    onClick={onImproveClick}
                   />
                 </div>
               ) : (
@@ -280,6 +296,8 @@ function StatusCard({
   penalty,
   tone,
   showBg = false,
+  showButton = true,
+  onClick,
 }: {
   title: string;
   body: string;
@@ -288,6 +306,8 @@ function StatusCard({
   penalty?: string;
   tone: "gold" | "blue" | "rose";
   showBg?: boolean;
+  showButton?: boolean;
+  onClick?: () => void;
 }) {
   const toneClass =
     tone === "gold"
@@ -328,9 +348,11 @@ function StatusCard({
           </div>
         )}
       </div>
-      <button className="mt-3 w-full rounded-full bg-[#2D1A5B] text-white py-2 text-sm font-bold">
-        Improve by working more!
-      </button>
+      {showButton && (
+        <button onClick={onClick} className="mt-3 w-full rounded-full bg-[#2D1A5B] text-white py-2 text-sm font-bold">
+          Improve by working more!
+        </button>
+      )}
     </div>
   );
 }

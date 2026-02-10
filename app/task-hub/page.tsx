@@ -229,7 +229,7 @@ function writeList(key: string, list: string[]) {
 
 function pillColorForTier(tier: BeeTier) {
   if (tier === "Golden") return "bg-[#9B8A18] text-white";
-  if (tier === "Advanced") return "bg-[#6B5A46] text-white";
+  if (tier === "Advanced") return "bg-[#5B7FC7] text-white";
   return "bg-[#6E8A74] text-white";
 }
 
@@ -484,7 +484,7 @@ export default function TaskHubPage() {
 
         {/* List area */}
         <div className="flex-1 bg-white rounded-t-[2.5rem] px-5 pt-6 pb-28 overflow-y-auto shadow-[0_-10px_40px_rgba(0,0,0,0.2)]">
-          <div className="space-y-4">
+          <div className="space-y-2">
             {visibleTasks.map((task) => {
               const inCart = cartIds.includes(task.id);
               const inApplying = applyingIds.includes(task.id);
@@ -552,10 +552,10 @@ function TaskCard({
       whileTap={{ scale: 0.99 }}
       className="rounded-[2rem] border border-slate-200 bg-gradient-to-b from-[#F1ECFF] to-[#F7F6FF] shadow-sm overflow-hidden"
     >
-      <div className="p-5 flex gap-4">
+      <div className="p-3 flex gap-3">
         {/* Logo */}
-        <div className="min-w-[72px]">
-          <div className="w-[72px] h-[72px] rounded-2xl bg-white border border-slate-200 flex items-center justify-center overflow-hidden">
+        <div className="min-w-[60px]">
+          <div className="w-[60px] h-[60px] rounded-2xl bg-white border border-slate-200 flex items-center justify-center overflow-hidden">
             {logoForCompany(task.company) ? (
               <img
                 src={logoForCompany(task.company)}
@@ -565,6 +565,8 @@ function TaskCard({
                     ? "w-[120px] h-[120px]"
                     : task.company === "SanitationCo."
                     ? "w-[90px] h-[90px]"
+                    : task.company === "FedEx" || task.company === "Walmart" || task.company === "Nutella"
+                    ? "w-[40px] h-[40px]"
                     : "w-[60px] h-[60px]"
                 }`}
               />
@@ -572,27 +574,27 @@ function TaskCard({
               <span className="text-[10px] text-slate-400 font-bold">LOGO</span>
             )}
           </div>
-          <p className="mt-2 text-sm font-bold text-[#1B2140] text-center">{task.company}</p>
+          <p className="mt-1 text-xs font-bold text-[#1B2140] text-center">{task.company}</p>
         </div>
 
         <div className="flex-1">
-          <h3 className="text-[15px] font-bold text-[#1B2140] leading-snug">
+          <h3 className="text-[13px] font-bold text-[#1B2140] leading-snug">
             {task.company} {task.title.toLowerCase().includes(task.company.toLowerCase()) ? "" : " "}
             {task.title}
           </h3>
 
-          <div className="mt-2 flex items-center gap-2 flex-wrap">
+          <div className="mt-1 flex items-center gap-2 flex-wrap">
             {task.tag && (
-              <span className={`text-[11px] px-3 py-1 rounded-full ${pillColorForTier(task.tierRequired)}`}>
+              <span className={`text-[10px] px-3 py-1 rounded-full ${pillColorForTier(task.tierRequired)}`}>
                 {task.tag}
               </span>
             )}
-            <span className="text-[11px] px-3 py-1 rounded-full bg-slate-400/70 text-white">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-400/70 text-white">
               {task.hoursPerDay} hrs/day
             </span>
           </div>
 
-          <div className="mt-3 text-[13px] text-slate-600 flex flex-wrap gap-x-6 gap-y-1">
+          <div className="mt-2 text-[12px] text-slate-600 flex flex-wrap gap-x-4 gap-y-0.5">
             <p>
               Bounty: <span className="font-bold text-emerald-700">${task.hourly.toFixed(2)} / hr</span>
             </p>
@@ -600,17 +602,17 @@ function TaskCard({
               Control Requirement:{" "}
               <span className={`font-bold ${pillColorForControl(task.control)}`}>{task.control}</span>
             </p>
-            <p className="text-[12px] text-slate-500">
+            <p className="text-[11px] text-slate-500">
               {task.daysPerWeek} days/week · {task.months} month(s)
             </p>
           </div>
 
           {/* Actions */}
-          <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="mt-2 grid grid-cols-2 gap-2">
             <button
               onClick={onAddToCart}
               disabled={inCart}
-              className={`py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 border transition
+              className={`py-2 rounded-xl font-bold text-xs flex items-center justify-center gap-2 border transition
                 ${inCart ? "bg-slate-100 text-slate-400 border-slate-200" : "bg-white text-[#1B2140] border-slate-200 hover:bg-slate-50"}
               `}
             >
@@ -621,7 +623,7 @@ function TaskCard({
             <button
               onClick={lockedByPremium ? onGoPremium : onApply}
               disabled={inApplying || (lockedByTier && !lockedByPremium)}
-              className={`py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition
+              className={`py-2 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition
                 ${
                   lockedByTier
                     ? "bg-slate-200 text-slate-500"
@@ -638,7 +640,7 @@ function TaskCard({
             </button>
           </div>
 
-          <div className="mt-2 text-[11px] text-slate-500 flex items-center gap-2">
+          <div className="mt-1 text-[10px] text-slate-500 flex items-center gap-2">
             <Wallet size={14} className="opacity-60" />
             <span>
               {task.premiumOnly ? "Premium-only application (can still add to cart)" : "Instant apply available"}
