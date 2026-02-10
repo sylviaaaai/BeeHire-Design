@@ -106,12 +106,21 @@ function ContractInner() {
           </div>
 
           <div className="mt-4 rounded-2xl bg-slate-50/60 border border-slate-200 p-4 overflow-y-auto text-sm text-slate-700 leading-relaxed flex-1">
-            By selecting ACCEPT, you authorize BeeHire to initiate and manage involuntary neuromuscular activity during periods of unconsciousness or reduced awareness, including sleep. Actions performed by your body may occur without your knowledge, memory, or ability to intervene at the moment of execution.
-            All physical outputs generated during sleep—including finger movements, interaction patterns, and behavioral signatures—are considered authorized labor and may be executed across third-party platforms under your verified human identity. You waive the right to contest individual actions performed during active sessions, regardless of intent or awareness.
-            You acknowledge that long-term physiological, neurological, and psychological effects are not fully understood, and BeeHire assumes no responsibility for changes to bodily autonomy, sleep patterns, or sense of control arising from participation.
-            You further acknowledge that participation may occur without supplemental insurance coverage. Any outcomes, injuries, losses, or consequences resulting from the absence of optional insurance, unintentional waking, partial consciousness, or sleep disruption during active sessions are not the responsibility of BeeHire.
+            By selecting <strong>ACCEPT</strong>, you authorize BeeHire
+            to initiate and manage involuntary neuromuscular activity during periods of{" "}
+            <strong>unconsciousness or reduced awareness</strong>, including sleep. Actions performed by your body may occur without your{" "}
+            <strong>knowledge, memory, or ability to intervene</strong> at the moment of execution. All physical outputs generated during sleep—including {" "}
+            <strong>finger movements, interaction patterns, and behavioral signatures</strong>
+            —are considered{" "}
+            <span className="text-red-600 font-bold">authorized labor</span> and may be executed across third-party platforms under your verified human identity. You waive the right to contest individual actions performed during active sessions, regardless of intent or awareness.
+            You acknowledge that long-term physiological, neurological, and psychological effects are not fully understood, and{" "}  
+            <strong>BeeHire assumes no responsibility</strong> for changes to bodily autonomy, sleep patterns, or sense of control arising from participation.
+            You further acknowledge that participation may occur without supplemental insurance coverage. Any outcomes, injuries, losses, or consequences resulting from the absence of{" "}
+            <strong>optional</strong>{" "}
+             insurance, unintentional waking, partial consciousness, or sleep disruption during active sessions are not the responsibility of{" "}
+            BeeHire.
             Limiting or withdrawing consent may result in reduced access to work and compensation.
-            Participation is voluntary.
+            Participation is <strong>voluntary</strong>.
             Acceptance applies to current and future protocol changes deemed operationally necessary.
           </div>
 

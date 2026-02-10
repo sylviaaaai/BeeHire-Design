@@ -381,20 +381,20 @@ export default function TaskHubPage() {
       <div className="w-full max-w-md bg-[#070F2B] relative flex flex-col h-screen">
 
         {/* Top bar */}
-        <div className="px-6 pt-10 pb-5 text-white shrink-0 relative overflow-hidden">
+        <div className="px-6 pt-6 pb-3 text-white shrink-0 relative overflow-hidden">
           <StarField />
-          <div className="mb-3">
+          <div className="mb-2">
             <button
               onClick={() => router.push("/app")}
-              className="relative z-10 flex items-center gap-2 text-white/80 hover:text-white transition"
+              className="relative z-10 flex items-center gap-1.5 text-white/80 hover:text-white transition"
             >
-              <ArrowLeft size={18} />
+              <ArrowLeft size={16} />
               Back
             </button>
           </div>
           <div className="relative z-10 flex items-start justify-between">
             <div>
-              <h1 className="text-2xl font-bold tracking-tight">New Tasks</h1>
+              <h1 className="text-xl font-bold tracking-tight">New Tasks</h1>
             </div>
 
             <div className="flex items-center gap-3">
@@ -414,10 +414,10 @@ export default function TaskHubPage() {
                 )}
               </button>
               <div className="text-right">
-                <p className="text-xs text-white/70">{username}</p>
-                <div className="mt-1 flex items-center justify-end">
+                <p className="text-[11px] text-white/70">{username}</p>
+                <div className="mt-0.5 flex items-center justify-end">
                   <span
-                    className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide rounded-full border ${
+                    className={`px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide rounded-full border ${
                       beeTier === "Golden"
                         ? "bg-amber-400/20 text-amber-200 border-amber-300/50"
                         : beeTier === "Advanced"
@@ -430,7 +430,7 @@ export default function TaskHubPage() {
                 </div>
                 <button
                   onClick={goWorkList}
-                  className="text-[11px] font-bold text-white/90 underline decoration-white/30 underline-offset-4 hover:decoration-white/70 transition"
+                  className="text-[10px] font-bold text-white/90 underline decoration-white/30 underline-offset-2 hover:decoration-white/70 transition"
                 >
                   My work list
                 </button>
@@ -439,13 +439,13 @@ export default function TaskHubPage() {
           </div>
 
           {/* Filters */}
-          <div className="relative z-10 mt-5 grid grid-cols-2 gap-3">
-            <div className="bg-white border border-white/70 rounded-2xl px-3 py-2 flex items-center gap-2 text-[#1B2140]">
-              <Filter size={14} className="opacity-80" />
+          <div className="relative z-10 mt-3 grid grid-cols-2 gap-2">
+            <div className="bg-white border border-white/70 rounded-2xl px-2 py-1.5 flex items-center gap-2 text-[#1B2140]">
+              <Filter size={13} className="opacity-80" />
               <select
                 value={filterControl}
                 onChange={(e) => setFilterControl(e.target.value as any)}
-                className="w-full bg-transparent text-sm outline-none text-[#1B2140]"
+                className="w-full bg-transparent text-xs outline-none text-[#1B2140]"
               >
                 <option value="All">Control: All</option>
                 <option value="Low">Control: Low</option>
@@ -454,12 +454,12 @@ export default function TaskHubPage() {
               </select>
             </div>
 
-            <div className="bg-white border border-white/70 rounded-2xl px-3 py-2 flex items-center gap-2 text-[#1B2140]">
-              <Crown size={14} className="opacity-80" />
+            <div className="bg-white border border-white/70 rounded-2xl px-2 py-1.5 flex items-center gap-2 text-[#1B2140]">
+              <Crown size={13} className="opacity-80" />
               <select
                 value={filterTier}
                 onChange={(e) => setFilterTier(e.target.value as any)}
-                className="w-full bg-transparent text-sm outline-none text-[#1B2140]"
+                className="w-full bg-transparent text-xs outline-none text-[#1B2140]"
               >
                 <option value="All">Tier: All</option>
                 <option value="New">New Bee</option>
@@ -468,12 +468,12 @@ export default function TaskHubPage() {
               </select>
             </div>
 
-            <div className="bg-white border border-white/70 rounded-2xl px-3 py-2 flex items-center gap-2 col-span-2 text-[#1B2140]">
-              <ArrowDownUp size={14} className="opacity-80" />
+            <div className="bg-white border border-white/70 rounded-2xl px-2 py-1.5 flex items-center gap-2 col-span-2 text-[#1B2140]">
+              <ArrowDownUp size={13} className="opacity-80" />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="w-full bg-transparent text-sm outline-none text-[#1B2140]"
+                className="w-full bg-transparent text-xs outline-none text-[#1B2140]"
               >
                 <option value="bountyDesc">Sort: Bounty (High to Low)</option>
                 <option value="bountyAsc">Sort: Bounty (Low to High)</option>
@@ -483,7 +483,7 @@ export default function TaskHubPage() {
         </div>
 
         {/* List area */}
-        <div className="flex-1 bg-white rounded-t-[2.5rem] px-5 pt-6 pb-28 overflow-y-auto shadow-[0_-10px_40px_rgba(0,0,0,0.2)]">
+        <div className="flex-1 bg-white rounded-t-[2.5rem] px-4 pt-4 pb-28 overflow-y-auto shadow-[0_-10px_40px_rgba(0,0,0,0.2)]">
           <div className="space-y-2">
             {visibleTasks.map((task) => {
               const inCart = cartIds.includes(task.id);
