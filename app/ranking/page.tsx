@@ -252,8 +252,8 @@ export default function RankingPage() {
                 </span>
               ))}
             </div>
-            <div className="relative z-10 flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:gap-4 sm:text-left">
-              <div className="relative h-24 w-[9rem] shrink-0 sm:h-32 sm:w-[42%] sm:min-w-[132px]">
+            <div className="relative z-10 grid grid-cols-[7.5rem_minmax(0,1fr)] items-center gap-3 text-left sm:flex sm:flex-row sm:items-center sm:gap-4">
+              <div className="relative h-24 w-[7.5rem] shrink-0 sm:h-32 sm:w-[42%] sm:min-w-[132px]">
                 <img
                   src="/lego.png"
                   alt="Lego prize"
@@ -266,18 +266,18 @@ export default function RankingPage() {
                 />
               </div>
 
-              <div className="flex-1 sm:pr-2">
-                <h2 className="text-[18px] leading-[1.15] font-black tracking-[-0.02em] text-[#BF7722] sm:text-[20px]">
+              <div className="min-w-0 sm:flex-1 sm:pr-2">
+                <h2 className="text-[15px] leading-[1.12] font-black tracking-[-0.02em] text-[#BF7722] sm:text-[20px]">
                   Join Bee Competition
                   <br />
                   to Win Big Prizes!
                 </h2>
-                <div className="mt-3 space-y-1 text-[10px] font-semibold text-[#D08A34] sm:text-[10px]">
+                <div className="mt-2 space-y-1 text-[8px] font-semibold text-[#D08A34] sm:mt-3 sm:text-[10px]">
                   <p>- Extra Bounties!</p>
                   <p>- 2 Month Memberships!</p>
                   <p>- Upgraded Safer Device!</p>
                 </div>
-                <p className="mt-4 text-[10px] leading-snug text-[#CC9B55]">
+                <p className="mt-3 text-[8px] leading-snug text-[#CC9B55] sm:mt-4 sm:text-[10px]">
                   *Top 10% Bees will enter a monthly lottery automatically.
                 </p>
               </div>
