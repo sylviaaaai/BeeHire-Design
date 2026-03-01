@@ -7,9 +7,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 const LS = {
   contractAccepted: "contractAccepted",
 };
+
 const CONTRACT_VERSION = "2026-03-01";
 
-// --- 1. 星星背景组件 ---
 function StarField() {
   const stars = Array.from({ length: 70 }).map((_, i) => ({
     id: i,
@@ -21,11 +21,11 @@ function StarField() {
   }));
 
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none">
+    <div className="pointer-events-none absolute inset-0 z-0">
       {stars.map((star) => (
         <motion.div
           key={star.id}
-          className="absolute bg-white rounded-full"
+          className="absolute rounded-full bg-white"
           style={{
             top: star.top,
             left: star.left,
@@ -50,19 +50,17 @@ function ContractInner() {
   const router = useRouter();
   const search = useSearchParams();
   const fromProfile = search.get("from") === "profile";
-  const fromImprove = search.get("from") === "improve";
 
   const [checked, setChecked] = useState(false);
   const [accepted, setAccepted] = useState(false);
 
   useEffect(() => {
-    const ca = localStorage.getItem(LS.contractAccepted) === CONTRACT_VERSION;
-    setAccepted(ca);
-    setChecked(ca);
+    const isAccepted = localStorage.getItem(LS.contractAccepted) === CONTRACT_VERSION;
+    setAccepted(isAccepted);
+    setChecked(isAccepted);
   }, []);
 
   useEffect(() => {
-    // Only auto-redirect to task-hub if not coming from profile Terms button
     if (accepted && !fromProfile) {
       router.replace("/task-hub");
     }
@@ -83,45 +81,69 @@ function ContractInner() {
     setChecked(false);
   };
 
-  const title = useMemo(
-    () => (accepted ? "Contract (Read Only)" : "Contract"),
-    [accepted]
-  );
+  const title = useMemo(() => (accepted ? "Contract (Read Only)" : "Contract"), [accepted]);
 
   return (
-    <main className="min-h-screen bg-[#070F2B] flex justify-center font-sans antialiased overflow-hidden">
-      <div className="w-full max-w-md min-h-screen px-6 pt-10 pb-10 relative overflow-hidden">
+    <main className="flex min-h-screen justify-center overflow-hidden bg-[#070F2B] font-sans antialiased">
+      <div className="relative min-h-screen w-full max-w-md overflow-hidden px-6 pt-10 pb-10">
         <StarField />
+
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-2 text-white/80 hover:text-white transition"
+          className="flex items-center gap-2 text-white/80 transition hover:text-white"
         >
           Back
         </button>
-        <h1 className="mt-3 text-2xl font-bold text-white relative z-10">{title}</h1>
 
-        <div className="mt-6 bg-white rounded-[2rem] p-6 pb-6 shadow-[0_-10px_40px_rgba(0,0,0,0.2)] relative z-10 min-h-[calc(100vh-10.5rem)] flex flex-col">
+        <h1 className="relative z-10 mt-3 text-2xl font-bold text-white">{title}</h1>
+
+        <div className="relative z-10 mt-6 flex min-h-[calc(100vh-10.5rem)] flex-col rounded-[2rem] bg-white p-6 pb-6 shadow-[0_-10px_40px_rgba(0,0,0,0.2)]">
           <div className="text-center">
             <h2 className="text-lg font-bold text-[#1B2140]">Autonomous Body Use Protocol</h2>
-            <p className="text-xs text-slate-500 mt-1">Effective upon acceptance</p>
+            <p className="mt-1 text-xs text-slate-500">Effective upon acceptance</p>
           </div>
 
-          <div className="mt-4 rounded-2xl bg-slate-50/60 border border-slate-200 p-4 overflow-y-auto text-sm text-slate-700 leading-relaxed flex-1">
-            By selecting <strong><em>ACCEPT</em></strong>, you authorize BeeHire to initiate and manage {" "}
-            <strong>involuntary neuromuscular activity</strong>{" "} during your periods of unconsciousness or reduced awareness, including sleep. You are acknowledging that actions performed by your body may occur without your knowledge, memory, or ability to intervene at the moment of execution.
+          <div className="mt-4 flex-1 space-y-4 overflow-y-auto rounded-2xl border border-slate-200 bg-slate-50/60 p-4 text-sm leading-relaxed text-slate-700">
+            <p>
+              By selecting <strong><em>ACCEPT</em></strong>, you authorize BeeHire to initiate and
+              manage <strong>involuntary neuromuscular activity</strong> during your periods of
+              unconsciousness or reduced awareness, including sleep. You acknowledge that actions
+              performed by your body may occur without your knowledge, memory, or ability to
+              intervene at the moment of execution.
+            </p>
 
-            All physical outputs generated during sleep—including finger movements, interaction patterns, and behavioral signatures—are considered <span className="text-red-600 font-bold">authorized labor</span> and may be executed across third-party platforms under your verified biological identity. You waive the right to contest individual actions performed during active sessions, regardless of intent or awareness.
+            <p>
+              All physical outputs generated during sleep, including finger movements, interaction
+              patterns, and behavioral signatures, are considered{" "}
+              <span className="font-bold text-red-600">authorized labor</span> and may be executed
+              across third-party platforms under your verified biological identity. You waive the
+              right to contest individual actions performed during active sessions, regardless of
+              intent or awareness.
+            </p>
 
-            You acknowledge that long-term physiological, neurological, and psychological effects are not fully understood, and {" "}
-            <strong>BeeHire assumes no responsibility</strong> {" "} for changes to bodily autonomy, sleep patterns, or sense of control arising from participation.
+            <p>
+              You acknowledge that long-term physiological, neurological, and psychological effects
+              are not fully understood, and <strong>BeeHire assumes no responsibility</strong> for
+              changes to bodily autonomy, sleep patterns, or sense of control arising from
+              participation.
+            </p>
 
-            You further acknowledge that participation may occur without supplemental insurance coverage. Any outcomes, injuries, losses, or consequences resulting from the absence of optional insurance, unintentional waking, partial consciousness, or sleep disruption during active sessions are not the responsibility of BeeHire.
+            <p>
+              You further acknowledge that participation may occur without supplemental insurance
+              coverage. Any outcomes, injuries, losses, or consequences resulting from the absence
+              of optional insurance, unintentional waking, partial consciousness, or sleep
+              disruption during active sessions are not the responsibility of BeeHire.
+            </p>
 
-            Limiting or withdrawing consent may affect task allocation, compensation tiers, and continued platform eligibility.
+            <p>
+              Limiting or withdrawing consent may affect task allocation, compensation tiers, and
+              continued platform eligibility.
+            </p>
 
-            Participation is {" "}<strong>voluntary</strong> .
-            Acceptance applies to current and future protocol changes deemed operationally necessary.
-
+            <p>
+              Participation is <strong>voluntary</strong>. Acceptance applies to current and future
+              protocol changes deemed operationally necessary.
+            </p>
           </div>
 
           <label className="mt-6 flex items-start gap-3 text-sm text-[#1B2140]">
@@ -132,16 +154,14 @@ function ContractInner() {
               disabled={accepted}
               className="mt-1 h-4 w-4 accent-[#070F2B]"
             />
-            <span>
-              I have read and agree to the Terms and Conditions.
-            </span>
+            <span>I have read and agree to the Terms and Conditions.</span>
           </label>
 
-          <div className="mt-auto pt-5 sticky bottom-0 bg-white/95 backdrop-blur-md pb-4">
+          <div className="sticky bottom-0 mt-auto bg-white/95 pt-5 pb-4 backdrop-blur-md">
             <button
               onClick={onContinue}
               disabled={!canContinue}
-              className={`w-full py-4 rounded-2xl font-bold shadow-xl active:scale-95 transition ${
+              className={`w-full rounded-2xl py-4 font-bold shadow-xl transition active:scale-95 ${
                 canContinue ? "bg-[#070F2B] text-white" : "bg-slate-200 text-slate-500"
               }`}
             >
@@ -150,7 +170,7 @@ function ContractInner() {
 
             <button
               onClick={onReset}
-              className="mt-3 w-full py-3 rounded-xl text-sm text-slate-400 border border-slate-300"
+              className="mt-3 w-full rounded-xl border border-slate-300 py-3 text-sm text-slate-400"
             >
               Reset Contract
             </button>
