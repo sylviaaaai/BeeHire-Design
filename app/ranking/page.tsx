@@ -210,19 +210,19 @@ export default function RankingPage() {
             <p className="text-[15px] font-black text-[#37328B] sm:text-[17px]">You are in the Top {CURRENT_USER.percentile}%, Keep Working!</p>
           </div>
 
-          <div className="mt-4 rounded-[1.6rem] border border-[#BED6A6] bg-[#EEF5E8] px-4 py-4 shadow-sm">
-            <div className="grid grid-cols-[52px_minmax(0,1fr)] gap-3 sm:grid-cols-[64px_1fr_auto] sm:items-center">
-              <div className="text-lg font-black text-[#4F5A2A] sm:text-xl">{CURRENT_USER.percentile}%</div>
-              <div className="flex min-w-0 items-center gap-3">
-                <div className="h-10 w-10 rounded-xl bg-white border border-[#D5E3C8] flex items-center justify-center overflow-hidden sm:h-11 sm:w-11">
+          <div className="mt-4 rounded-[1.6rem] border border-[#BED6A6] bg-[#EEF5E8] px-3 py-4 shadow-sm sm:px-4">
+            <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2.5 sm:grid-cols-[64px_1fr_auto] sm:gap-3">
+              <div className="text-[15px] font-black text-[#4F5A2A] sm:text-xl">{CURRENT_USER.percentile}%</div>
+              <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+                <div className="h-9 w-9 rounded-xl bg-white border border-[#D5E3C8] flex items-center justify-center overflow-hidden sm:h-11 sm:w-11">
                   <img src="/bee2.png" alt="Bee" className="h-full w-full object-cover" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[14px] font-semibold text-[#44512F] sm:text-[15px]">{CURRENT_USER.beeId}</p>
-                  <p className="text-[11px] text-[#6D7B53] sm:text-[12px]">Current personal standing</p>
+                  <p className="text-[12px] font-semibold text-[#44512F] sm:text-[15px]">{CURRENT_USER.beeId}</p>
+                  <p className="truncate text-[10px] text-[#6D7B53] sm:text-[12px]">Current personal standing</p>
                 </div>
               </div>
-              <div className="col-span-2 text-right text-[15px] font-black text-[#4B4F6A] sm:col-span-1 sm:text-[16px]">{formatMoney(CURRENT_USER.totalIncome)}</div>
+              <div className="text-right text-[13px] font-black text-[#4B4F6A] sm:text-[16px]">{formatMoney(CURRENT_USER.totalIncome)}</div>
             </div>
           </div>
 
@@ -252,21 +252,21 @@ export default function RankingPage() {
                 </span>
               ))}
             </div>
-            <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-4">
-              <div className="relative h-28 w-full shrink-0 sm:h-32 sm:w-[42%] sm:min-w-[132px]">
+            <div className="relative z-10 flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:gap-4 sm:text-left">
+              <div className="relative h-24 w-[9rem] shrink-0 sm:h-32 sm:w-[42%] sm:min-w-[132px]">
                 <img
                   src="/lego.png"
                   alt="Lego prize"
-                  className="absolute left-0 top-3 h-20 w-16 rounded-xl border-2 border-[#6C2200] bg-white object-cover shadow-[0_10px_20px_rgba(102,53,7,0.18)] sm:top-5 sm:h-24 sm:w-20"
+                  className="absolute left-2 top-4 h-16 w-[3.1rem] rounded-xl border-2 border-[#6C2200] bg-white object-cover shadow-[0_10px_20px_rgba(102,53,7,0.18)] sm:left-1 sm:top-6 sm:h-20 sm:w-16"
                 />
                 <img
                   src="/11.png"
                   alt="Device prize"
-                  className="absolute left-[3.5rem] top-5 h-20 w-16 rotate-[7deg] rounded-xl border-2 border-white bg-white object-cover shadow-[0_14px_28px_rgba(109,74,182,0.22)] sm:left-[4.5rem] sm:top-7 sm:h-24 sm:w-20"
+                  className="absolute left-[3.9rem] top-5 h-16 w-[3.1rem] rotate-[7deg] rounded-xl border-2 border-white bg-white object-cover shadow-[0_14px_28px_rgba(109,74,182,0.22)] sm:left-[4.15rem] sm:top-7 sm:h-20 sm:w-16"
                 />
               </div>
 
-              <div className="flex-1 pr-1 sm:pr-2">
+              <div className="flex-1 sm:pr-2">
                 <h2 className="text-[18px] leading-[1.15] font-black tracking-[-0.02em] text-[#BF7722] sm:text-[20px]">
                   Join Bee Competition
                   <br />

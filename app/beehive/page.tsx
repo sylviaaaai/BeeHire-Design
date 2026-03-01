@@ -473,7 +473,7 @@ export default function BeehivePage() {
                 </div>
 
                 <div className="px-4 pt-5">
-                  <p className="whitespace-pre-line text-[15px] leading-8 text-[#171a2e]">{post.caption}</p>
+                  <p className="whitespace-pre-line text-[15px] leading-6 text-[#171a2e]">{post.caption}</p>
                 </div>
 
                 <div className="px-4 pt-5">

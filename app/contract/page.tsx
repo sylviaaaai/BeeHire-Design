@@ -101,27 +101,26 @@ function ContractInner() {
 
         <div className="mt-6 bg-white rounded-[2rem] p-6 pb-6 shadow-[0_-10px_40px_rgba(0,0,0,0.2)] relative z-10 min-h-[calc(100vh-10.5rem)] flex flex-col">
           <div className="text-center">
-            <h2 className="text-lg font-bold text-[#1B2140]">BeeHire™ Night Bees Participation Agreement</h2>
+            <h2 className="text-lg font-bold text-[#1B2140]">Autonomous Body Use Protocol</h2>
             <p className="text-xs text-slate-500 mt-1">Effective upon acceptance</p>
           </div>
 
           <div className="mt-4 rounded-2xl bg-slate-50/60 border border-slate-200 p-4 overflow-y-auto text-sm text-slate-700 leading-relaxed flex-1">
-            By selecting <strong><em>ACCEPT</em></strong>, you authorize BeeHire
-            to initiate and manage involuntary neuromuscular activity during periods of{" "}
-            <strong>unconsciousness or reduced awareness</strong>, including sleep. Actions performed by your body may occur without your{" "}
-            <strong>knowledge, memory, or ability to intervene</strong> at the moment of execution. All physical outputs generated during sleep—including {" "}
-            <strong>finger movements, interaction patterns, and behavioral signatures</strong>
-            —are considered{" "}
-            <span className="text-red-600 font-bold">authorized labor</span> and may be executed across third-party platforms under your verified human identity. You waive the right to contest individual actions performed during active sessions, regardless of intent or awareness.
-            You acknowledge that long-term physiological, neurological, and psychological effects are not fully understood, and{" "}  
-            <strong>BeeHire assumes no responsibility</strong> for changes to bodily autonomy, sleep patterns, or sense of control arising from participation.
-            You further acknowledge that participation may occur without supplemental insurance coverage. Any outcomes, injuries, losses, or consequences resulting from the absence of{" "}
-            <strong>optional</strong>{" "}
-             insurance, unintentional waking, partial consciousness, or sleep disruption during active sessions are not the responsibility of{" "}
-            BeeHire.
-            Limiting or withdrawing consent may result in reduced access to work and compensation.
-            Participation is <strong>voluntary</strong>.
+            By selecting <strong><em>ACCEPT</em></strong>, you authorize BeeHire to initiate and manage {" "}
+            <strong>involuntary neuromuscular activity</strong>{" "} during your periods of unconsciousness or reduced awareness, including sleep. You are acknowledging that actions performed by your body may occur without your knowledge, memory, or ability to intervene at the moment of execution.
+
+            All physical outputs generated during sleep—including finger movements, interaction patterns, and behavioral signatures—are considered <span className="text-red-600 font-bold">authorized labor</span> and may be executed across third-party platforms under your verified biological identity. You waive the right to contest individual actions performed during active sessions, regardless of intent or awareness.
+
+            You acknowledge that long-term physiological, neurological, and psychological effects are not fully understood, and {" "}
+            <strong>BeeHire assumes no responsibility</strong> {" "} for changes to bodily autonomy, sleep patterns, or sense of control arising from participation.
+
+            You further acknowledge that participation may occur without supplemental insurance coverage. Any outcomes, injuries, losses, or consequences resulting from the absence of optional insurance, unintentional waking, partial consciousness, or sleep disruption during active sessions are not the responsibility of BeeHire.
+
+            Limiting or withdrawing consent may affect task allocation, compensation tiers, and continued platform eligibility.
+
+            Participation is {" "}<strong>voluntary</strong> .
             Acceptance applies to current and future protocol changes deemed operationally necessary.
+
           </div>
 
           <label className="mt-6 flex items-start gap-3 text-sm text-[#1B2140]">
