@@ -72,6 +72,21 @@ const POSTS: Post[] = [
     ],
   },
   {
+    id: "pX",
+    author: "ABA Insurance",
+    handle: "@ABA_Insurance",
+    role: "Sponsored",
+    avatar: "/hive/23.png",
+    image: "/hive/24.png",
+    caption: "ABA Insurance protects you from workplace accidents and operational injuries when it matters most. \n\n From compensation to recovery support, we ensure you’re covered every step of the way.",
+    likes: 0,
+    time: "Sponsored",
+    canFollow: true,
+    badgeLabel: "Ads",
+    comments: [],
+  },
+
+  {
     id: "p2",
     author: "Bee_980276",
     handle: "@Bee_980276",
@@ -80,7 +95,7 @@ const POSTS: Post[] = [
     image: "/hive/4.png",
     caption:
       "Three days in the global Top 10% 🥺\nGot the monthly lottery notification this morning☕",
-    likes: 10000,
+    likes: 10500,
     likesLabel: "10K+",
     time: "43m ago",
     canFollow: true,
@@ -137,7 +152,7 @@ const POSTS: Post[] = [
     avatar: "/hive/10.png",
     image: "/hive/11.jpg",
     caption: "With my loves.\nBeehire gave my life a second chance by letting me work freely.",
-    likes: 1000,
+    likes: 1230,
     likesLabel: "1K+",
     time: "2h ago",
     canFollow: true,
@@ -162,7 +177,7 @@ const POSTS: Post[] = [
     avatar: "/hive/12.png",
     image: "/hive/13.png",
     caption:
-      "Sometimes I wonder which movements came from me\nand which came from the system.\n\nEither way, my income keeps rising and my rent is clear this month though✌️",
+      "Sometimes I wonder which movements came from me and which came from the system.\n\nEither way, my income keeps rising and my rent is clear this month though✌️",
     likes: 200,
     likesLabel: "200+",
     time: "3h ago",
@@ -246,6 +261,7 @@ const POSTS: Post[] = [
       },
     ],
   },
+
 ];
 
 const STORIES: Story[] = POSTS.slice(0, 5).map((post, index) => ({
@@ -264,12 +280,7 @@ export default function BeehivePage() {
   const [userComments, setUserComments] = useState<Record<string, string[]>>({});
   const [searchQuery, setSearchQuery] = useState("");
   const [showSavedOnly, setShowSavedOnly] = useState(false);
-  const [showMaintenanceModal, setShowMaintenanceModal] = useState(false);
   const deferredSearchQuery = useDeferredValue(searchQuery);
-
-  const openMaintenanceModal = () => {
-    setShowMaintenanceModal(true);
-  };
 
   const toggleLike = (postId: string) => {
     setLikedPosts((current) => ({ ...current, [postId]: !current[postId] }));
@@ -375,17 +386,14 @@ export default function BeehivePage() {
               <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#dcdfff]">
                 <img src="/Bee.svg" alt="Bee" className="h-6 w-6" />
               </div>
-              <button
-                onClick={openMaintenanceModal}
-                className="flex-1 rounded-full bg-[#f2f4fb] px-4 py-3 text-left text-sm text-[#8790b4]"
-              >
+              <button className="flex-1 rounded-full bg-[#f2f4fb] px-4 py-3 text-left text-sm text-[#8790b4]">
                 Share a task win, a setup photo, or a tip...
               </button>
             </div>
             <div className="mt-3 flex items-center justify-between text-xs font-semibold text-[#6f789c]">
-              <QuickAction icon={<Image size={15} />} label="Photo" onClick={openMaintenanceModal} />
-              <QuickAction icon={<Smile size={15} />} label="Mood" onClick={openMaintenanceModal} />
-              <QuickAction icon={<Send size={15} />} label="Post" onClick={openMaintenanceModal} />
+              <QuickAction icon={<Image size={15} />} label="Photo" />
+              <QuickAction icon={<Smile size={15} />} label="Mood" />
+              <QuickAction icon={<Send size={15} />} label="Post" />
             </div>
           </div>
         </section>
@@ -574,26 +582,6 @@ export default function BeehivePage() {
             </div>
           </div>
         </div>
-
-        {showMaintenanceModal && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center bg-[#11162f]/45 px-5">
-            <div className="w-full max-w-[22rem] rounded-[2rem] bg-white px-5 py-6 text-center shadow-[0_24px_60px_rgba(17,22,47,0.2)]">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#eef1ff] text-[#5d68c4]">
-                <Bell size={22} />
-              </div>
-              <h2 className="mt-4 text-lg font-black text-[#20264a]">System Updating</h2>
-              <p className="mt-2 text-sm leading-6 text-[#6f789c]">
-                The system is currently being updated. Posting is under maintenance for now.
-              </p>
-              <button
-                onClick={() => setShowMaintenanceModal(false)}
-                className="mt-5 inline-flex min-w-28 items-center justify-center rounded-full bg-[#20264a] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#2d3564]"
-              >
-                OK
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </main>
   );
@@ -628,17 +616,9 @@ function IconButton({
   );
 }
 
-function QuickAction({
-  icon,
-  label,
-  onClick,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  onClick?: () => void;
-}) {
+function QuickAction({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
-    <button onClick={onClick} className="flex items-center gap-2 rounded-full px-3 py-2 transition hover:bg-[#f4f6fd]">
+    <button className="flex items-center gap-2 rounded-full px-3 py-2 transition hover:bg-[#f4f6fd]">
       {icon}
       <span>{label}</span>
     </button>
