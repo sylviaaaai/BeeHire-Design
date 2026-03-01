@@ -77,6 +77,7 @@ const LS = {
   premium: "isPremium",
   contractAccepted: "contractAccepted",
 };
+const CONTRACT_VERSION = "2026-03-01";
 
 const APPROVED_DEFAULT_IDS = ["nike-01", "pg-01", "tiktok-01"];
 
@@ -156,7 +157,7 @@ export default function WorkListPage() {
     if (t === "New" || t === "Advanced" || t === "Golden") setBeeTier(t);
     setIsPremium(localStorage.getItem(LS.premium) === "true");
 
-    const ca = localStorage.getItem(LS.contractAccepted) === "true";
+    const ca = localStorage.getItem(LS.contractAccepted) === CONTRACT_VERSION;
     if (!ca) {
       router.replace("/contract");
     }

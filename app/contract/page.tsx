@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 const LS = {
   contractAccepted: "contractAccepted",
 };
+const CONTRACT_VERSION = "2026-03-01";
 
 // --- 1. 星星背景组件 ---
 function StarField() {
@@ -55,7 +56,7 @@ function ContractInner() {
   const [accepted, setAccepted] = useState(false);
 
   useEffect(() => {
-    const ca = localStorage.getItem(LS.contractAccepted) === "true";
+    const ca = localStorage.getItem(LS.contractAccepted) === CONTRACT_VERSION;
     setAccepted(ca);
     setChecked(ca);
   }, []);
@@ -71,7 +72,7 @@ function ContractInner() {
 
   const onContinue = () => {
     if (!checked) return;
-    localStorage.setItem(LS.contractAccepted, "true");
+    localStorage.setItem(LS.contractAccepted, CONTRACT_VERSION);
     setAccepted(true);
     router.replace("/task-hub");
   };

@@ -35,6 +35,7 @@ type Task = {
   premiumOnly?: boolean;
   tag?: string; // e.g. "New Bee Available"
 };
+const CONTRACT_VERSION = "2026-03-01";
 
 function StarField() {
   const stars = Array.from({ length: 70 }).map((_, i) => ({
@@ -281,7 +282,7 @@ export default function TaskHubPage() {
   const [approvedIds, setApprovedIds] = useState<string[]>([]);
 
   const ensureContractAccepted = () => {
-    const ca = localStorage.getItem(LS.contractAccepted) === "true";
+    const ca = localStorage.getItem(LS.contractAccepted) === CONTRACT_VERSION;
     if (!ca) {
       router.replace("/contract");
     }
@@ -683,7 +684,6 @@ function NavIcon({
     </button>
   );
 }
-
 
 
 
