@@ -255,7 +255,7 @@ export default function RankingPage() {
             <div className="relative z-10 grid grid-cols-[7.5rem_minmax(0,1fr)] items-center gap-3 text-left sm:flex sm:flex-row sm:items-center sm:gap-4">
               <div className="relative h-24 w-[7.5rem] shrink-0 sm:h-32 sm:w-[42%] sm:min-w-[132px]">
                 <img
-                  src="/lego.png"
+                  src="/apple.png"
                   alt="Lego prize"
                   className="absolute left-2 top-4 h-16 w-[3.1rem] rounded-xl border-2 border-[#6C2200] bg-white object-cover shadow-[0_10px_20px_rgba(102,53,7,0.18)] sm:left-1 sm:top-6 sm:h-20 sm:w-16"
                 />
