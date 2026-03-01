@@ -16,10 +16,9 @@ import {
   Search,
   Send,
   Smile,
-  Star,
   User,
 } from "lucide-react";
-import { useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 type Story = {
@@ -50,14 +49,6 @@ type Post = {
   highlight?: boolean;
   badgeLabel?: string;
 };
-
-const STORIES: Story[] = [
-  { id: "s1", name: "Bee_068612", ring: true, avatar: "/hive/1.png" },
-  { id: "s2", name: "BeeKing", ring: true, avatar: "/1.png" },
-  { id: "s3", name: "Luna", ring: true, avatar: "/3.png" },
-  { id: "s4", name: "BEEhire_official", ring: false, avatar: "/hive/20.png" },
-  { id: "s5", name: "Nora", ring: false, avatar: "/6.png" },
-];
 
 const POSTS: Post[] = [
   {
@@ -257,12 +248,23 @@ const POSTS: Post[] = [
   },
 ];
 
+const STORIES: Story[] = POSTS.slice(0, 5).map((post, index) => ({
+  id: `story-${post.id}`,
+  name: post.author,
+  ring: index < 3,
+  avatar: post.avatar,
+}));
+
 export default function BeehivePage() {
   const router = useRouter();
   const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({});
   const [savedPosts, setSavedPosts] = useState<Record<string, boolean>>({});
+  const [followedPosts, setFollowedPosts] = useState<Record<string, boolean>>({});
   const [drafts, setDrafts] = useState<Record<string, string>>({});
-  const [privateComments, setPrivateComments] = useState<Record<string, string[]>>({});
+  const [userComments, setUserComments] = useState<Record<string, string[]>>({});
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSavedOnly, setShowSavedOnly] = useState(false);
+  const deferredSearchQuery = useDeferredValue(searchQuery);
 
   const toggleLike = (postId: string) => {
     setLikedPosts((current) => ({ ...current, [postId]: !current[postId] }));
@@ -272,20 +274,62 @@ export default function BeehivePage() {
     setSavedPosts((current) => ({ ...current, [postId]: !current[postId] }));
   };
 
+  const toggleFollow = (postId: string) => {
+    setFollowedPosts((current) => ({ ...current, [postId]: !current[postId] }));
+  };
+
   const updateDraft = (postId: string, value: string) => {
     setDrafts((current) => ({ ...current, [postId]: value }));
   };
 
-  const submitPrivateComment = (postId: string) => {
+  const submitComment = (postId: string) => {
     const value = drafts[postId]?.trim();
     if (!value) return;
 
-    setPrivateComments((current) => ({
+    setUserComments((current) => ({
       ...current,
       [postId]: [...(current[postId] || []), value],
     }));
     setDrafts((current) => ({ ...current, [postId]: "" }));
   };
+
+  const normalizedQuery = deferredSearchQuery.trim().toLowerCase();
+  const visibleStories = useMemo(() => {
+    if (!normalizedQuery) return STORIES;
+
+    return STORIES.filter((story) => story.name.toLowerCase().includes(normalizedQuery));
+  }, [normalizedQuery]);
+
+  const visiblePosts = useMemo(() => {
+    let filteredPosts = POSTS;
+
+    if (showSavedOnly) {
+      filteredPosts = filteredPosts.filter((post) => savedPosts[post.id]);
+    }
+
+    if (!normalizedQuery) return filteredPosts;
+
+    return filteredPosts.filter((post) => {
+      const dynamicComments = userComments[post.id] || [];
+      const commentText = [
+        ...post.comments.map((comment) => `${comment.author} ${comment.text}`),
+        ...dynamicComments.map((comment) => `you ${comment}`),
+      ].join(" ");
+
+      const searchableText = [
+        post.author,
+        post.handle,
+        post.role,
+        post.caption,
+        commentText,
+        post.badgeLabel || "",
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return searchableText.includes(normalizedQuery);
+    });
+  }, [normalizedQuery, savedPosts, showSavedOnly, userComments]);
 
   return (
     <main className="min-h-screen bg-[#eef1f7] flex justify-center font-sans antialiased">
@@ -299,17 +343,22 @@ export default function BeehivePage() {
               </div>
               <div className="flex items-center gap-2 text-[#7b84a7]">
                 <IconButton icon={<PlusSquare size={18} />} />
-                <IconButton icon={<Heart size={18} />} />
-                <IconButton icon={<Bell size={18} />} />
+                <IconButton
+                  icon={<Bookmark size={18} fill={showSavedOnly ? "currentColor" : "none"} />}
+                  active={showSavedOnly}
+                  onClick={() => setShowSavedOnly((current) => !current)}
+                />
+                <IconButton icon={<Bell size={18} />} onClick={() => router.push("/beehive/messages")} />
               </div>
             </div>
 
             <div className="mt-4 flex items-center gap-3 rounded-[1.6rem] border border-white bg-white/90 px-4 py-3 shadow-[0_12px_30px_rgba(31,45,88,0.08)]">
               <Search size={16} className="text-[#8c93b3]" />
               <input
-                readOnly
-                value="Search Bees, ideas, and task tips"
-                className="w-full bg-transparent text-sm text-[#8c93b3] outline-none"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search Bees, ideas, and task tips"
+                className="w-full bg-transparent text-sm text-[#20264a] outline-none placeholder:text-[#8c93b3]"
               />
             </div>
           </div>
@@ -339,7 +388,7 @@ export default function BeehivePage() {
             <button className="text-xs font-semibold text-[#5763c9]">View all</button>
           </div>
           <div className="mt-3 flex gap-3 overflow-x-auto pb-1">
-            {STORIES.map((story) => (
+            {visibleStories.map((story) => (
               <div key={story.id} className="min-w-[72px] text-center">
                 <div
                   className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full p-[3px] ${
@@ -359,10 +408,30 @@ export default function BeehivePage() {
         </section>
 
         <section className="px-5 pt-5 space-y-4">
-          {POSTS.map((post, index) => {
+          {showSavedOnly && (
+            <div className="rounded-[1.6rem] border border-[#d9def2] bg-[#f6f7fd] px-4 py-3 text-sm font-semibold text-[#4f5b8d]">
+              Showing saved posts
+            </div>
+          )}
+
+          {visiblePosts.length === 0 && (
+            <div className="rounded-[2rem] border border-white bg-white px-5 py-8 text-center shadow-[0_22px_50px_rgba(31,45,88,0.1)]">
+              <p className="text-sm font-bold text-[#20264a]">
+                {showSavedOnly ? "No saved posts found" : "No results found"}
+              </p>
+              <p className="mt-2 text-sm text-[#7a82a6]">
+                {showSavedOnly
+                  ? "Save posts with the bookmark icon and they will appear here."
+                  : "Try searching by handle, caption, or comment keywords."}
+              </p>
+            </div>
+          )}
+
+          {visiblePosts.map((post, index) => {
             const liked = !!likedPosts[post.id];
             const saved = !!savedPosts[post.id];
-            const privateList = privateComments[post.id] || [];
+            const followed = !!followedPosts[post.id];
+            const userCommentList = userComments[post.id] || [];
             const draft = drafts[post.id] || "";
             const totalLikes = post.likes + (liked ? 1 : 0);
 
@@ -386,8 +455,15 @@ export default function BeehivePage() {
                   </div>
 
                   {post.canFollow ? (
-                    <button className="rounded-full bg-[#d9d9dd] px-5 py-2.5 text-sm font-bold text-[#20264a] transition hover:bg-[#cfd0d8]">
-                      + Follow
+                    <button
+                      onClick={() => toggleFollow(post.id)}
+                      className={`rounded-full px-5 py-2.5 text-sm font-bold transition ${
+                        followed
+                          ? "bg-[#d9d9dd] text-[#20264a] hover:bg-[#cfd0d8]"
+                          : "bg-[#20264a] text-white hover:bg-[#2d3564]"
+                      }`}
+                    >
+                      {followed ? "Unfollow" : "+ Follow"}
                     </button>
                   ) : (
                     <button className="text-[#7a82a6]">
@@ -434,7 +510,7 @@ export default function BeehivePage() {
                         onClick={() => toggleSave(post.id)}
                         className={`transition hover:scale-105 ${saved ? "text-[#f0bf14]" : ""}`}
                       >
-                        {post.highlight ? <Star size={18} fill={saved ? "currentColor" : "none"} /> : <Bookmark size={18} fill={saved ? "currentColor" : "none"} />}
+                        <Bookmark size={18} fill={saved ? "currentColor" : "none"} />
                       </button>
                     </div>
 
@@ -449,6 +525,12 @@ export default function BeehivePage() {
                         <span className="whitespace-pre-line">{comment.text}</span>
                       </p>
                     ))}
+                    {userCommentList.map((comment, commentIndex) => (
+                      <p key={`${post.id}-user-${commentIndex}`}>
+                        <span className="font-bold text-[#2e2a67]">You</span>
+                        <span className="font-semibold text-[#2e2a67]"> :</span> {comment}
+                      </p>
+                    ))}
                   </div>
 
                   <div className="mt-4 rounded-[1.4rem] border border-[#eceef6] bg-[#fafbff] p-3">
@@ -456,31 +538,16 @@ export default function BeehivePage() {
                       <input
                         value={draft}
                         onChange={(event) => updateDraft(post.id, event.target.value)}
-                        placeholder="Add a comment... only visible to you"
+                        placeholder="Add a comment..."
                         className="w-full bg-transparent text-sm text-[#20264a] outline-none placeholder:text-[#98a0bd]"
                       />
                       <button
-                        onClick={() => submitPrivateComment(post.id)}
+                        onClick={() => submitComment(post.id)}
                         className="rounded-full bg-[#22284c] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#313a6c]"
                       >
                         Post
                       </button>
                     </div>
-
-                    {privateList.length > 0 && (
-                      <div className="mt-3 border-t border-[#eceef6] pt-3">
-                        <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#98a0bd]">
-                          Private notes
-                        </p>
-                        <div className="mt-2 space-y-1 text-sm text-[#31405f]">
-                          {privateList.map((comment, commentIndex) => (
-                            <p key={`${post.id}-private-${commentIndex}`}>
-                              <span className="font-bold text-[#20264a]">You</span>: {comment}
-                            </p>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
               </motion.article>
@@ -512,9 +579,22 @@ function compactLikes(value: number) {
   return `${value}`;
 }
 
-function IconButton({ icon }: { icon: React.ReactNode }) {
+function IconButton({
+  icon,
+  onClick,
+  active = false,
+}: {
+  icon: React.ReactNode;
+  onClick?: () => void;
+  active?: boolean;
+}) {
   return (
-    <button className="flex h-10 w-10 items-center justify-center rounded-full border border-white bg-white shadow-sm transition hover:-translate-y-0.5">
+    <button
+      onClick={onClick}
+      className={`relative flex h-10 w-10 items-center justify-center rounded-full border bg-white shadow-sm transition hover:-translate-y-0.5 ${
+        active ? "border-[#cfd5f2] text-[#4856a8]" : "border-white"
+      }`}
+    >
       {icon}
     </button>
   );
