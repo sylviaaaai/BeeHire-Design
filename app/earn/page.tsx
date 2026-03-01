@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Home, LayoutGrid, Scale, User, Wallet } from "lucide-react";
+import { Home, LayoutGrid, Package2, Scale, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type BeeTier = "New" | "Advanced" | "Golden";
@@ -188,8 +188,8 @@ export default function EarnPage() {
             <div className="flex justify-between items-end text-gray-400">
               <NavIcon icon={<Home size={22} />} label="Home" onClick={() => router.push("/app")} />
               <NavIcon icon={<Scale size={20} />} label="Earn" active />
-              <NavIcon icon={<Wallet size={22} />} label="Work List" onClick={() => router.push("/work-list")} />
-              <NavIcon icon={<LayoutGrid size={22} />} label="Task Hub" onClick={() => router.push("/task-hub")} />
+              <NavIcon icon={<LayoutGrid size={22} />} label="TaskHub" onClick={() => router.push("/task-hub")} />
+              <NavIcon icon={<Package2 size={22} />} label="Beehive" onClick={() => router.push("/beehive")} />
               <NavIcon icon={<User size={22} />} label="Profile" onClick={() => router.push("/profile")} showDot={showUpgradeDot} />
             </div>
           </div>

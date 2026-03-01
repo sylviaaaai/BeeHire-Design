@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Home, LayoutGrid, Scale, User, Wallet } from "lucide-react";
+import { ChevronRight, Home, LayoutGrid, Package2, Scale, Trophy, User } from "lucide-react";
 import { motion } from "framer-motion";
 
 type BeeTier = "New" | "Advanced" | "Golden";
@@ -17,8 +17,8 @@ type TabKey = "status" | "earnings";
 
 const STATUS_ITEMS = [
   {
-    title: "Congratulations!",
-    body: "You ranked in the top 10% of the most hard-working bees this month.",
+    title: "Global Worker Ranking",
+    body: "Check the top 10 leaderboard and your current standing.",
   },
   {
     title: "Work Performance",
@@ -61,31 +61,50 @@ function formatDate(d: Date) {
   return `${y}/${m}/${day}`;
 }
 
+function readProfileSnapshot() {
+  if (typeof window === "undefined") {
+    return {
+      username: "Bee",
+      beeTier: "New" as BeeTier,
+      workDays: 120,
+      performance: 7.3,
+    };
+  }
+
+  const username = localStorage.getItem(LS.username) || "Bee";
+  const rawTier = (localStorage.getItem(LS.beeTier) as BeeTier) || "New";
+  const beeTier = rawTier === "New" || rawTier === "Advanced" || rawTier === "Golden" ? rawTier : "New";
+  const storedDays = Number(localStorage.getItem("workDays"));
+  const storedPerf = Number(localStorage.getItem("performance"));
+
+  return {
+    username,
+    beeTier,
+    workDays: Number.isFinite(storedDays) && storedDays > 0 ? storedDays : 120,
+    performance: Number.isFinite(storedPerf) && storedPerf > 0 ? storedPerf : 7.3,
+  };
+}
+
+const STAR_FIELD = Array.from({ length: 70 }, (_, i) => ({
+  id: i,
+  size: (i % 3) + 1,
+  top: `${(i * 17) % 100}%`,
+  left: `${(i * 29) % 100}%`,
+  duration: 2 + (i % 4),
+  delay: (i % 5) * 0.6,
+}));
+
 export default function ProfilePage() {
   const router = useRouter();
-  const [username, setUsername] = useState("Bee");
-  const [beeTier, setBeeTier] = useState<BeeTier>("New");
+  const [profile] = useState(readProfileSnapshot);
   const [tab, setTab] = useState<TabKey>("status");
-  const [workDays, setWorkDays] = useState(0);
-  const [performance, setPerformance] = useState(0);
-
-  useEffect(() => {
-    const u = localStorage.getItem(LS.username);
-    if (u) setUsername(u);
-    const t = (localStorage.getItem(LS.beeTier) as BeeTier) || "New";
-    if (t === "New" || t === "Advanced" || t === "Golden") setBeeTier(t);
-    const storedDays = Number(localStorage.getItem("workDays"));
-    const storedPerf = Number(localStorage.getItem("performance"));
-    setWorkDays(Number.isFinite(storedDays) && storedDays > 0 ? storedDays : 120);
-    setPerformance(Number.isFinite(storedPerf) && storedPerf > 0 ? storedPerf : 7.3);
-  }, []);
 
   const today = useMemo(() => {
     const futureDate = new Date();
     futureDate.setFullYear(futureDate.getFullYear() + 11);
     return formatDate(futureDate);
   }, []);
-  const showUpgradeDot = beeTier === "New" && workDays > 90 && performance > 7;
+  const showUpgradeDot = profile.beeTier === "New" && profile.workDays > 90 && profile.performance > 7;
 
   const onTerms = () => {
     router.push("/contract?from=profile");
@@ -103,7 +122,6 @@ export default function ProfilePage() {
   return (
     <main className="min-h-screen bg-[#070F2B] flex justify-center font-sans antialiased">
       <div className="w-full max-w-md min-h-screen relative">
-        {/* Header */}
         <div className="px-6 pt-10 pb-6 text-white relative overflow-hidden">
           <StarField />
           <div className="flex items-center justify-between">
@@ -112,7 +130,6 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Profile card */}
         <div className="px-6">
           <div className="rounded-[2rem] bg-[#5B5F86] text-white p-5 border border-white/20 shadow-xl">
             <div className="flex items-center gap-4">
@@ -124,7 +141,7 @@ export default function ProfilePage() {
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between gap-2">
-                  <p className="text-lg font-bold">{username}</p>
+                  <p className="text-lg font-bold">{profile.username}</p>
                   <button
                     onClick={() => router.push("/premium")}
                     className="px-2 py-0.5 rounded-full bg-white/20 text-[11px] font-semibold relative"
@@ -135,17 +152,18 @@ export default function ProfilePage() {
                     )}
                   </button>
                 </div>
+                <p className="text-xs text-white/80">BeeID: 20362970</p>
                 <p className="text-xs text-white/80">Member for 260 days</p>
                 <p
                   className={`text-xs mt-1 ${
-                    beeTier === "Golden"
+                    profile.beeTier === "Golden"
                       ? "text-amber-300"
-                      : beeTier === "Advanced"
+                      : profile.beeTier === "Advanced"
                       ? "text-sky-300"
                       : "text-emerald-300"
                   }`}
                 >
-                  *{beeTier} Bee
+                  *{profile.beeTier} Bee
                 </p>
               </div>
             </div>
@@ -164,8 +182,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="mt-6 px-6">
+        <div className="mt-5 px-6">
           <div className="rounded-[2rem] bg-white shadow-[0_10px_40px_rgba(0,0,0,0.15)] overflow-hidden">
             <div className="grid grid-cols-2 text-center text-sm font-bold text-[#2D161C] border-b border-slate-200">
               <button
@@ -191,6 +208,8 @@ export default function ProfilePage() {
                     tone="gold"
                     showBg
                     showButton={false}
+                    rankingCard
+                    onClick={() => router.push("/ranking")}
                   />
                   <StatusCard
                     title={STATUS_ITEMS[1].title}
@@ -228,21 +247,19 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Terms */}
         <div className="px-6 mt-6 mb-28 text-center">
           <button onClick={onTerms} className="text-sm text-slate-300 underline underline-offset-4">
             Terms and Conditions
           </button>
         </div>
 
-        {/* Bottom nav */}
         <div className="fixed bottom-0 left-0 right-0 z-50">
           <div className="max-w-md mx-auto bg-[#F5F6F8]/90 backdrop-blur-xl border-t border-gray-200 px-5 py-3 pb-4 rounded-t-[1.6rem]">
             <div className="flex justify-between items-end text-gray-400">
               <NavIcon icon={<Home size={22} />} label="Home" onClick={() => router.push("/app")} />
               <NavIcon icon={<Scale size={20} />} label="Earn" onClick={() => router.push("/earn")} />
-              <NavIcon icon={<Wallet size={22} />} label="Work List" onClick={() => router.push("/work-list")} />
-              <NavIcon icon={<LayoutGrid size={22} />} label="Task Hub" onClick={() => router.push("/task-hub")} />
+              <NavIcon icon={<LayoutGrid size={22} />} label="TaskHub" onClick={() => router.push("/task-hub")} />
+              <NavIcon icon={<Package2 size={22} />} label="Beehive" onClick={() => router.push("/beehive")} />
               <NavIcon icon={<User size={22} />} label="Profile" active showDot={showUpgradeDot} />
             </div>
           </div>
@@ -253,18 +270,9 @@ export default function ProfilePage() {
 }
 
 function StarField() {
-  const stars = Array.from({ length: 70 }).map((_, i) => ({
-    id: i,
-    size: Math.random() * 2 + 1,
-    top: `${Math.random() * 100}%`,
-    left: `${Math.random() * 100}%`,
-    duration: Math.random() * 3 + 2,
-    delay: Math.random() * 5,
-  }));
-
   return (
     <div className="absolute inset-0 z-0 pointer-events-none">
-      {stars.map((star) => (
+      {STAR_FIELD.map((star) => (
         <motion.div
           key={star.id}
           className="absolute bg-white rounded-full"
@@ -297,6 +305,7 @@ function StatusCard({
   tone,
   showBg = false,
   showButton = true,
+  rankingCard = false,
   onClick,
 }: {
   title: string;
@@ -307,6 +316,7 @@ function StatusCard({
   tone: "gold" | "blue" | "rose";
   showBg?: boolean;
   showButton?: boolean;
+  rankingCard?: boolean;
   onClick?: () => void;
 }) {
   const toneClass =
@@ -318,7 +328,7 @@ function StatusCard({
 
   return (
     <div
-      className={`rounded-[1.8rem] border p-4 ${toneClass}`}
+      className={`rounded-[1.8rem] border p-4 ${toneClass} ${rankingCard ? "cursor-pointer" : ""}`}
       style={
         showBg
           ? {
@@ -330,22 +340,41 @@ function StatusCard({
             }
           : undefined
       }
+      onClick={rankingCard ? onClick : undefined}
     >
       <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-base font-bold text-[#2D161C]">{title}</p>
-          <p className="text-xs text-slate-600 mt-2">{body}</p>
-        </div>
-        {score && (
-          <div className="text-right">
-            <div className="text-3xl font-bold text-[#1B2140]">{score}</div>
-            <div className="text-xs text-rose-600">{delta}</div>
-          </div>
-        )}
-        {penalty && (
-          <div className="text-right">
-            <div className="text-2xl font-bold text-rose-700">{penalty}</div>
-          </div>
+        {rankingCard ? (
+          <>
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-white/70 border border-white/60 flex items-center justify-center shadow-sm text-[#6A4A00]">
+                <Trophy size={22} />
+              </div>
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#A57A12]">Competition</p>
+                <p className="text-base font-bold text-[#2D161C]">{title}</p>
+                <p className="text-xs text-slate-600 mt-2 max-w-[220px]">{body}</p>
+              </div>
+            </div>
+            <ChevronRight size={20} className="shrink-0 text-[#7A5A0A]" />
+          </>
+        ) : (
+          <>
+            <div>
+              <p className="text-base font-bold text-[#2D161C]">{title}</p>
+              <p className="text-xs text-slate-600 mt-2">{body}</p>
+            </div>
+            {score && (
+              <div className="text-right">
+                <div className="text-3xl font-bold text-[#1B2140]">{score}</div>
+                <div className="text-xs text-rose-600">{delta}</div>
+              </div>
+            )}
+            {penalty && (
+              <div className="text-right">
+                <div className="text-2xl font-bold text-rose-700">{penalty}</div>
+              </div>
+            )}
+          </>
         )}
       </div>
       {showButton && (

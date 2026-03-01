@@ -7,6 +7,7 @@ import {
   Play, 
   Home, 
   LayoutGrid, 
+  Package2,
   Scale,
   User, 
   ArrowUpRight, 
@@ -243,12 +244,20 @@ export default function DashboardPage() {
           </div>
 
           {/* Add More */}
-          <div className="mt-6 pb-3">
+          <div className="mt-6 pb-3 space-y-3">
             <button onClick={() => router.push("/task-hub")} className="w-full flex items-center justify-center gap-3 
               bg-[#070F2B] text-white py-4 rounded-2xl font-bold 
               shadow-xl shadow-blue-900/30 active:scale-95 transition hover:bg-[#0A163B]">
               <Plus size={22} />
               Add More
+            </button>
+            <button
+              onClick={() => router.push("/work-list")}
+              className="w-full flex items-center justify-center gap-3
+              bg-white border-2 border-[#070F2B] text-[#070F2B] py-4 rounded-2xl font-bold
+              shadow-xl shadow-blue-900/10 active:scale-95 transition hover:bg-[#F5F7FF]"
+            >
+              Manage Applications
             </button>
           </div>
 
@@ -260,8 +269,8 @@ export default function DashboardPage() {
             <div className="flex justify-between items-end text-gray-400">
               <NavIcon icon={<Home size={22}/>} label="Home" active />
               <NavIcon icon={<Scale size={20}/>} label="Earn" onClick={() => router.push("/earn")} />
-              <NavIcon icon={<Wallet size={22}/>} label="Work List" onClick={() => router.push("/work-list")} />
-              <NavIcon icon={<LayoutGrid size={22}/>} label="Task Hub" onClick={() => router.push("/task-hub")} />
+              <NavIcon icon={<LayoutGrid size={22}/>} label="TaskHub" onClick={() => router.push("/task-hub")} />
+              <NavIcon icon={<Package2 size={22}/>} label="Beehive" onClick={() => router.push("/beehive")} />
               <NavIcon icon={<User size={22}/>} label="Profile" onClick={() => router.push("/profile")} showDot={showUpgradeDot} />
             </div>
           </div>

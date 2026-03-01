@@ -200,7 +200,7 @@ const removeFromCart = (id: string) => {
             <ArrowLeft size={18} />
             Back
           </button>
-          <h1 className="text-2xl font-bold mt-3">My work list</h1>
+          <h1 className="text-2xl font-bold mt-3">Application Center</h1>
         </div>
 
         <div className="flex-1 bg-white rounded-t-[2.5rem] px-6 pt-6 pb-10 overflow-y-auto shadow-[0_-10px_40px_rgba(0,0,0,0.2)]">

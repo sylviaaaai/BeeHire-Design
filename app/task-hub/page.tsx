@@ -10,6 +10,7 @@ import {
   Filter,
   Home,
   LayoutGrid,
+  Package2,
   Scale,
   ShoppingCart,
   Send,
@@ -432,7 +433,7 @@ export default function TaskHubPage() {
                   onClick={goWorkList}
                   className="text-[10px] font-bold text-white/90 underline decoration-white/30 underline-offset-2 hover:decoration-white/70 transition"
                 >
-                  My work list
+                  Applications
                 </button>
               </div>
             </div>
@@ -514,8 +515,8 @@ export default function TaskHubPage() {
             <div className="flex justify-between items-end text-gray-400">
               <NavIcon icon={<Home size={22} />} label="Home" onClick={() => router.push("/app")} />
               <NavIcon icon={<Scale size={20} />} label="Earn" onClick={() => router.push("/earn")} />
-              <NavIcon icon={<Wallet size={22} />} label="Work List" onClick={() => router.push("/work-list")} />
-              <NavIcon icon={<LayoutGrid size={22} />} label="Task Hub" active />
+              <NavIcon icon={<LayoutGrid size={22} />} label="TaskHub" active />
+              <NavIcon icon={<Package2 size={22} />} label="Beehive" onClick={() => router.push("/beehive")} />
               <NavIcon icon={<User size={22} />} label="Profile" onClick={() => router.push("/profile")} showDot={showUpgradeDot} />
             </div>
           </div>
@@ -682,8 +683,6 @@ function NavIcon({
     </button>
   );
 }
-
-
 
 
 
