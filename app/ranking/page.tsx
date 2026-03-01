@@ -65,7 +65,7 @@ function formatMoney(value: number) {
 }
 
 function TopAvatar({ src, large = false }: { src: string; large?: boolean }) {
-  const sizeClass = large ? "w-16 h-16" : "w-12 h-12";
+  const sizeClass = large ? "h-14 w-14 sm:h-16 sm:w-16" : "h-11 w-11 sm:h-12 sm:w-12";
 
   return (
     <div className={`rounded-[1.2rem] border border-white/60 bg-white/95 shadow-inner overflow-hidden ${sizeClass}`}>
@@ -76,7 +76,7 @@ function TopAvatar({ src, large = false }: { src: string; large?: boolean }) {
 
 function TableAvatar({ src }: { src: string }) {
   return (
-    <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center overflow-hidden">
+    <div className="h-9 w-9 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center overflow-hidden sm:h-10 sm:w-10">
       <img src={src} alt="" className="h-full w-full object-cover" />
     </div>
   );
@@ -88,8 +88,8 @@ export default function RankingPage() {
   return (
     <main className="min-h-screen bg-[#070F2B] flex justify-center font-sans antialiased">
       <div className="w-full max-w-md min-h-screen bg-[#070F2B] relative overflow-hidden">
-          <div
-            className="relative z-10 px-5 pt-8 pb-6 overflow-hidden"
+        <div
+            className="relative z-10 overflow-hidden px-4 pt-7 pb-6 sm:px-5 sm:pt-8"
             style={{
               backgroundImage:
                 "linear-gradient(180deg, rgba(12,17,58,0.18) 0%, rgba(12,17,58,0.3) 52%, rgba(7,15,43,1) 100%), url(/bg-Earn.png)",
@@ -124,10 +124,10 @@ export default function RankingPage() {
           </button>
 
           <div className="relative z-10 mt-6 text-center text-white">
-            <p className="text-[22px] font-black uppercase tracking-[0.25em] text-[#F6E7A8]/80">Global Ranking</p>
+            <p className="text-[18px] font-black uppercase tracking-[0.18em] text-[#F6E7A8]/80 sm:text-[22px] sm:tracking-[0.25em]">Global Ranking</p>
           </div>
 
-          <div className="relative z-10 mt-12 flex items-end justify-center gap-2">
+          <div className="relative z-10 mt-12 flex items-end justify-center gap-1.5 sm:gap-2">
             {TOP_THREE.map((entry) => {
               const featured = entry.rank === 1;
 
@@ -137,13 +137,13 @@ export default function RankingPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, delay: entry.rank * 0.08 }}
-                  className={`relative shrink-0 rounded-[2rem] border border-white/35 bg-[linear-gradient(180deg,rgba(255,255,255,0.3),rgba(157,173,234,0.18))] text-white shadow-[0_20px_40px_rgba(8,12,41,0.35)] backdrop-blur-md ${
-                    featured ? "w-[44%] min-w-0 px-3 py-3.5" : "w-[27%] min-w-0 px-2.5 py-2.5"
+                  className={`relative shrink-0 rounded-[1.6rem] border border-white/35 bg-[linear-gradient(180deg,rgba(255,255,255,0.3),rgba(157,173,234,0.18))] text-white shadow-[0_20px_40px_rgba(8,12,41,0.35)] backdrop-blur-md sm:rounded-[2rem] ${
+                    featured ? "w-[44%] min-w-0 px-2 py-3 sm:px-3 sm:py-3.5" : "w-[27%] min-w-0 px-2 py-2.5 sm:px-2.5"
                   }`}
                 >
                   <p
                     className={`absolute left-1/2 -translate-x-1/2 font-black text-[#FFD64D] drop-shadow-[0_6px_12px_rgba(10,12,38,0.45)] ${
-                      featured ? "-top-14 text-[3rem]" : "-top-10 text-[2rem]"
+                      featured ? "-top-12 text-[2.4rem] sm:-top-14 sm:text-[3rem]" : "-top-9 text-[1.7rem] sm:-top-10 sm:text-[2rem]"
                     }`}
                   >
                     #{entry.rank}
@@ -154,22 +154,22 @@ export default function RankingPage() {
                       <img
                         src="/12.png"
                         alt="Bee King badge"
-                        className={`${featured ? "h-20 w-auto" : "h-16 w-auto"}`}
+                        className={`${featured ? "h-16 w-auto sm:h-20" : "h-12 w-auto sm:h-16"}`}
                       />
                     </div>
                     <div className="mt-0 flex justify-center">
                       <TopAvatar src={entry.avatarImage} large={featured} />
                     </div>
-                    <p className={`mt-2 font-semibold text-white/75 ${featured ? "text-[10px]" : "text-[9px]"}`}>ID: {entry.beeId}</p>
-                    <div className={`mt-1.5 inline-flex rounded-full bg-[#D6B21D] font-semibold text-[#FFF8D8] ${featured ? "px-3 py-1 text-[10px]" : "px-2.5 py-1 text-[9px]"}`}>
+                    <p className={`mt-2 font-semibold text-white/75 ${featured ? "text-[9px] sm:text-[10px]" : "text-[8px] sm:text-[9px]"}`}>ID: {entry.beeId}</p>
+                    <div className={`mt-1.5 inline-flex rounded-full bg-[#D6B21D] font-semibold text-[#FFF8D8] ${featured ? "px-2.5 py-1 text-[9px] sm:px-3 sm:text-[10px]" : "px-2 py-1 text-[8px] sm:px-2.5 sm:text-[9px]"}`}>
                       {entry.title}
                     </div>
                     <p
-                      className={`mt-3 font-black text-[#FFF2D7] leading-none ${featured ? "text-[1.95rem] -ml-2 tracking-[-0.05em]" : "text-[1rem] tracking-tight"}`}
+                      className={`mt-3 font-black leading-none text-[#FFF2D7] ${featured ? "text-[1.35rem] tracking-[-0.04em] sm:text-[1.95rem]" : "text-[0.88rem] tracking-tight sm:text-[1rem]"}`}
                     >
                       {formatMoney(entry.totalIncome)}
                     </p>
-                    <p className={`text-white/75 ${featured ? "text-[10px]" : "text-[9px]"}`}>Total Income</p>
+                    <p className={`text-white/75 ${featured ? "text-[9px] sm:text-[10px]" : "text-[8px] sm:text-[9px]"}`}>Total Income</p>
                   </div>
                 </motion.div>
               );
@@ -177,52 +177,52 @@ export default function RankingPage() {
           </div>
         </div>
 
-        <div className="relative z-10 rounded-t-[2.75rem] bg-[#F7F7FB] px-5 pt-6 pb-28 shadow-[0_-18px_50px_rgba(0,0,0,0.35)]">
+        <div className="relative z-10 rounded-t-[2.4rem] bg-[#F7F7FB] px-4 pt-6 pb-24 shadow-[0_-18px_50px_rgba(0,0,0,0.35)] sm:rounded-t-[2.75rem] sm:px-5 sm:pb-28">
           <div className="rounded-[2rem] bg-white border border-slate-200 overflow-hidden shadow-sm">
-            <div className="grid grid-cols-[72px_1fr_120px] bg-slate-200/90 px-4 py-3 text-[13px] font-semibold text-slate-500">
+            <div className="grid grid-cols-[52px_minmax(0,1fr)_88px] bg-slate-200/90 px-3 py-3 text-[11px] font-semibold text-slate-500 sm:grid-cols-[72px_1fr_120px] sm:px-4 sm:text-[13px]">
               <span>Ranking</span>
               <span>Bee ID</span>
               <span className="text-right">Total Earnings</span>
             </div>
 
-            <div className="px-4 py-2">
+            <div className="px-3 py-2 sm:px-4">
               {LEADERBOARD.map((entry) => (
                 <div
                     key={entry.rank}
-                    className="grid grid-cols-[72px_1fr_120px] items-center gap-2 py-3 border-b border-slate-100 last:border-b-0"
+                    className="grid grid-cols-[52px_minmax(0,1fr)_88px] items-center gap-2 border-b border-slate-100 py-3 last:border-b-0 sm:grid-cols-[72px_1fr_120px]"
                 >
-                  <div className="text-center text-2xl font-bold text-[#39306F]">{entry.rank}</div>
-                  <div className="flex items-center gap-3 min-w-0">
-                    <img src="/bee3.png" alt="" className="h-6 w-6 shrink-0 object-contain" />
+                  <div className="text-center text-xl font-bold text-[#39306F] sm:text-2xl">{entry.rank}</div>
+                  <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+                    <img src="/bee3.png" alt="" className="h-5 w-5 shrink-0 object-contain sm:h-6 sm:w-6" />
                     <TableAvatar src={entry.avatarImage} />
                     <div className="min-w-0">
-                      <p className="truncate text-[15px] font-semibold text-[#44377A]">{entry.beeId}</p>
-                      <p className="truncate text-[12px] text-slate-500">{entry.name}</p>
+                      <p className="truncate text-[13px] font-semibold text-[#44377A] sm:text-[15px]">{entry.beeId}</p>
+                      <p className="truncate text-[11px] text-slate-500 sm:text-[12px]">{entry.name}</p>
                     </div>
                   </div>
-                  <div className="text-right text-[15px] font-bold text-[#4D4A76]">{formatMoney(entry.totalIncome)}</div>
+                  <div className="text-right text-[12px] font-bold text-[#4D4A76] sm:text-[15px]">{formatMoney(entry.totalIncome)}</div>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="mt-7 text-center">
-            <p className="text-[17px] font-black text-[#37328B]">You are in the Top {CURRENT_USER.percentile}%, Keep Working!</p>
+            <p className="text-[15px] font-black text-[#37328B] sm:text-[17px]">You are in the Top {CURRENT_USER.percentile}%, Keep Working!</p>
           </div>
 
           <div className="mt-4 rounded-[1.6rem] border border-[#BED6A6] bg-[#EEF5E8] px-4 py-4 shadow-sm">
-            <div className="grid grid-cols-[64px_1fr_auto] items-center gap-3">
-              <div className="text-xl font-black text-[#4F5A2A]">{CURRENT_USER.percentile}%</div>
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-11 h-11 rounded-xl bg-white border border-[#D5E3C8] flex items-center justify-center overflow-hidden">
+            <div className="grid grid-cols-[52px_minmax(0,1fr)] gap-3 sm:grid-cols-[64px_1fr_auto] sm:items-center">
+              <div className="text-lg font-black text-[#4F5A2A] sm:text-xl">{CURRENT_USER.percentile}%</div>
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="h-10 w-10 rounded-xl bg-white border border-[#D5E3C8] flex items-center justify-center overflow-hidden sm:h-11 sm:w-11">
                   <img src="/bee2.png" alt="Bee" className="h-full w-full object-cover" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[15px] font-semibold text-[#44512F]">{CURRENT_USER.beeId}</p>
-                  <p className="text-[12px] text-[#6D7B53]">Current personal standing</p>
+                  <p className="text-[14px] font-semibold text-[#44512F] sm:text-[15px]">{CURRENT_USER.beeId}</p>
+                  <p className="text-[11px] text-[#6D7B53] sm:text-[12px]">Current personal standing</p>
                 </div>
               </div>
-              <div className="text-right text-[16px] font-black text-[#4B4F6A]">{formatMoney(CURRENT_USER.totalIncome)}</div>
+              <div className="col-span-2 text-right text-[15px] font-black text-[#4B4F6A] sm:col-span-1 sm:text-[16px]">{formatMoney(CURRENT_USER.totalIncome)}</div>
             </div>
           </div>
 
@@ -252,27 +252,27 @@ export default function RankingPage() {
                 </span>
               ))}
             </div>
-            <div className="relative z-10 flex items-center gap-4">
-              <div className="relative w-[42%] min-w-[132px] h-32 shrink-0">
+            <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-4">
+              <div className="relative h-28 w-full shrink-0 sm:h-32 sm:w-[42%] sm:min-w-[132px]">
                 <img
                   src="/lego.png"
                   alt="Lego prize"
-                  className="absolute left-0 top-5 h-24 w-20 rounded-xl border-2 border-[#6C2200] bg-white object-cover shadow-[0_10px_20px_rgba(102,53,7,0.18)]"
+                  className="absolute left-0 top-3 h-20 w-16 rounded-xl border-2 border-[#6C2200] bg-white object-cover shadow-[0_10px_20px_rgba(102,53,7,0.18)] sm:top-5 sm:h-24 sm:w-20"
                 />
                 <img
                   src="/11.png"
                   alt="Device prize"
-                  className="absolute left-[4.5rem] top-7 h-24 w-20 rotate-[7deg] rounded-xl border-2 border-white bg-white object-cover shadow-[0_14px_28px_rgba(109,74,182,0.22)]"
+                  className="absolute left-[3.5rem] top-5 h-20 w-16 rotate-[7deg] rounded-xl border-2 border-white bg-white object-cover shadow-[0_14px_28px_rgba(109,74,182,0.22)] sm:left-[4.5rem] sm:top-7 sm:h-24 sm:w-20"
                 />
               </div>
 
-              <div className="flex-1 pr-2">
-                <h2 className="text-[20px] leading-[1.15] font-black tracking-[-0.02em] text-[#BF7722]">
+              <div className="flex-1 pr-1 sm:pr-2">
+                <h2 className="text-[18px] leading-[1.15] font-black tracking-[-0.02em] text-[#BF7722] sm:text-[20px]">
                   Join Bee Competition
                   <br />
                   to Win Big Prizes!
                 </h2>
-                <div className="mt-3 space-y-1 text-[10px] font-semibold text-[#D08A34]">
+                <div className="mt-3 space-y-1 text-[10px] font-semibold text-[#D08A34] sm:text-[10px]">
                   <p>- Extra Bounties!</p>
                   <p>- 2 Month Memberships!</p>
                   <p>- Upgraded Safer Device!</p>
