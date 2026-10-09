@@ -21,7 +21,7 @@
 | **Setting** | A fictional company operating in 2037 |
 | **My role** | Original concept creator · Frontend developer · UI/UX co-designer |
 | **Stack** | Next.js · React · TypeScript · Tailwind CSS · Framer Motion |
-| **Outcome** | Interactive website prototype and fictional company presentation |
+| **Outcome** | [Live interactive prototype](https://bee-hire-design.vercel.app/) and fictional company presentation |
 
 > **What if technology let people earn money while they sleep—and what would they give up in return?**
 
@@ -32,6 +32,8 @@ BeeHire imagines a future in which AI has transformed the labor market, while so
 Users of the fictional BeeHire platform could sign up, select tasks, and receive simulated earnings. At first glance, the proposition looks like effortless passive income. Underneath its polished startup identity, however, the concept asks whether convenience and financial incentives can normalize the loss of control over one's own body.
 
 **BeeHire is a critical design exploration, not a real startup, functioning EMS device, or commercially validated product.**
+
+**[▶ Explore the live prototype](https://bee-hire-design.vercel.app/)**
 
 ## My Contributions
 
