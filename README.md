@@ -96,9 +96,16 @@ The repository contains the Next.js web prototype.
 
 The current implementation focuses on front-end navigation, interface interaction, and simulated user experiences. It does **not** process real payments, control hardware, or run an AI task-allocation service.
 
-### Run locally
+### Try the Live Prototype
 
-Requirements: Node.js and npm.
+**[🌐 Open BeeHire — Live Demo](https://bee-hire-design.vercel.app/)**
+
+The interactive web prototype is deployed on Vercel. You can explore it directly in your browser without installing anything.
+
+<details>
+<summary><strong>Run locally (for developers)</strong></summary>
+
+Requires Node.js and npm.
 
 ```bash
 git clone https://github.com/sylviaaaai/BeeHire-Design.git
@@ -107,7 +114,9 @@ npm install
 npm run dev
 ```
 
-Then open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000).
+
+</details>
 
 ## Reflection
 
